@@ -27,3 +27,16 @@
 **/_vimtags
 _build/
 RTE/
+
+*/*/armgcc/
+*/*/iar/
+*/*/arm4/
+
+*.ewd
+*.ewp
+*.eww
+*.uvopt
+*.uvoptx
+*.uvproj
+*.ld
+*.icf
