@@ -12,7 +12,7 @@
 // <e> APP_USBD_ENABLED - app_usbd - USB Device library
 //==========================================================
 #ifndef APP_USBD_ENABLED
-#define APP_USBD_ENABLED 1
+#define APP_USBD_ENABLED 0
 #endif
 #if  APP_USBD_ENABLED
 // <s> APP_USBD_VID - Vendor ID
@@ -150,7 +150,7 @@
 // <e> COMP_ENABLED - nrf_drv_comp - COMP peripheral driver
 //==========================================================
 #ifndef COMP_ENABLED
-#define COMP_ENABLED 1
+#define COMP_ENABLED 0
 #endif
 #if  COMP_ENABLED
 // <o> COMP_CONFIG_REF  - Reference voltage
@@ -441,7 +441,7 @@
 // <e> I2S_ENABLED - nrf_drv_i2s - I2S peripheral driver
 //==========================================================
 #ifndef I2S_ENABLED
-#define I2S_ENABLED 1
+#define I2S_ENABLED 0
 #endif
 #if  I2S_ENABLED
 // <o> I2S_CONFIG_SCK_PIN - SCK pin  <0-31> 
@@ -642,7 +642,7 @@
 // <e> LPCOMP_ENABLED - nrf_drv_lpcomp - LPCOMP peripheral driver
 //==========================================================
 #ifndef LPCOMP_ENABLED
-#define LPCOMP_ENABLED 1
+#define LPCOMP_ENABLED 0
 #endif
 #if  LPCOMP_ENABLED
 // <o> LPCOMP_CONFIG_REFERENCE  - Reference voltage
@@ -777,7 +777,7 @@
 // <e> PDM_ENABLED - nrf_drv_pdm - PDM peripheral driver
 //==========================================================
 #ifndef PDM_ENABLED
-#define PDM_ENABLED 1
+#define PDM_ENABLED 0
 #endif
 #if  PDM_ENABLED
 // <o> PDM_CONFIG_MODE  - Mode
@@ -884,7 +884,7 @@
 // <e> PERIPHERAL_RESOURCE_SHARING_ENABLED - nrf_drv_common - Peripheral drivers common module
 //==========================================================
 #ifndef PERIPHERAL_RESOURCE_SHARING_ENABLED
-#define PERIPHERAL_RESOURCE_SHARING_ENABLED 1
+#define PERIPHERAL_RESOURCE_SHARING_ENABLED 0
 #endif
 #if  PERIPHERAL_RESOURCE_SHARING_ENABLED
 // <e> COMMON_CONFIG_LOG_ENABLED - Enables logging in the module.
@@ -946,7 +946,7 @@
 // <e> POWER_ENABLED - nrf_drv_power - POWER peripheral driver
 //==========================================================
 #ifndef POWER_ENABLED
-#define POWER_ENABLED 1
+#define POWER_ENABLED 0
 #endif
 #if  POWER_ENABLED
 // <o> POWER_CONFIG_IRQ_PRIORITY  - Interrupt priority
@@ -1052,7 +1052,7 @@
 // <e> PWM_ENABLED - nrf_drv_pwm - PWM peripheral driver
 //==========================================================
 #ifndef PWM_ENABLED
-#define PWM_ENABLED 1
+#define PWM_ENABLED 0
 #endif
 #if  PWM_ENABLED
 // <o> PWM_DEFAULT_CONFIG_OUT0_PIN - Out0 pin  <0-31> 
@@ -1236,7 +1236,7 @@
 // <e> QDEC_ENABLED - nrf_drv_qdec - QDEC peripheral driver
 //==========================================================
 #ifndef QDEC_ENABLED
-#define QDEC_ENABLED 1
+#define QDEC_ENABLED 0
 #endif
 #if  QDEC_ENABLED
 // <o> QDEC_CONFIG_REPORTPER  - Report period
@@ -1394,7 +1394,7 @@
 // <e> RNG_ENABLED - nrf_drv_rng - RNG peripheral driver
 //==========================================================
 #ifndef RNG_ENABLED
-#define RNG_ENABLED 1
+#define RNG_ENABLED 0
 #endif
 #if  RNG_ENABLED
 // <q> RNG_CONFIG_ERROR_CORRECTION  - Error correction
@@ -1717,7 +1717,7 @@
 // <e> SPIS_ENABLED - nrf_drv_spis - SPI Slave driver
 //==========================================================
 #ifndef SPIS_ENABLED
-#define SPIS_ENABLED 1
+#define SPIS_ENABLED 0
 #endif
 #if  SPIS_ENABLED
 // <o> SPIS_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
@@ -1851,7 +1851,7 @@
 // <e> SPI_ENABLED - nrf_drv_spi - SPI/SPIM peripheral driver
 //==========================================================
 #ifndef SPI_ENABLED
-#define SPI_ENABLED 1
+#define SPI_ENABLED 0
 #endif
 #if  SPI_ENABLED
 // <o> SPI_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
@@ -2014,7 +2014,7 @@
  
 
 #ifndef SYSTICK_ENABLED
-#define SYSTICK_ENABLED 1
+#define SYSTICK_ENABLED 0
 #endif
 
 // <e> TIMER_ENABLED - nrf_drv_timer - TIMER periperal driver
@@ -2171,7 +2171,7 @@
 // <e> TWIS_ENABLED - nrf_drv_twis - TWIS peripheral driver
 //==========================================================
 #ifndef TWIS_ENABLED
-#define TWIS_ENABLED 1
+#define TWIS_ENABLED 0
 #endif
 #if  TWIS_ENABLED
 // <o> TWIS_DEFAULT_CONFIG_ADDR0 - Address0 
@@ -2312,7 +2312,7 @@
 // <e> TWI_ENABLED - nrf_drv_twi - TWI/TWIM peripheral driver
 //==========================================================
 #ifndef TWI_ENABLED
-#define TWI_ENABLED 1
+#define TWI_ENABLED 0
 #endif
 #if  TWI_ENABLED
 // <o> TWI_DEFAULT_CONFIG_FREQUENCY  - Frequency
@@ -2447,7 +2447,7 @@
 // <e> UART_ENABLED - nrf_drv_uart - UART/UARTE peripheral driver
 //==========================================================
 #ifndef UART_ENABLED
-#define UART_ENABLED 1
+#define UART_ENABLED 0
 #endif
 #if  UART_ENABLED
 // <o> UART_DEFAULT_CONFIG_HWFC  - Hardware Flow Control
@@ -2613,7 +2613,7 @@
 // <e> USBD_ENABLED - nrf_drv_usbd - USB driver
 //==========================================================
 #ifndef USBD_ENABLED
-#define USBD_ENABLED 1
+#define USBD_ENABLED 0
 #endif
 #if  USBD_ENABLED
 // <o> USBD_CONFIG_IRQ_PRIORITY  - Interrupt priority
@@ -2655,7 +2655,7 @@
 // <e> WDT_ENABLED - nrf_drv_wdt - WDT peripheral driver
 //==========================================================
 #ifndef WDT_ENABLED
-#define WDT_ENABLED 1
+#define WDT_ENABLED 0
 #endif
 #if  WDT_ENABLED
 // <o> WDT_CONFIG_BEHAVIOUR  - WDT behavior in CPU SLEEP or HALT mode
@@ -2759,27 +2759,27 @@
  
 
 #ifndef APP_FIFO_ENABLED
-#define APP_FIFO_ENABLED 1
+#define APP_FIFO_ENABLED 0
 #endif
 
 // <q> APP_GPIOTE_ENABLED  - app_gpiote - GPIOTE events dispatcher
  
 
 #ifndef APP_GPIOTE_ENABLED
-#define APP_GPIOTE_ENABLED 1
+#define APP_GPIOTE_ENABLED 0
 #endif
 
 // <q> APP_PWM_ENABLED  - app_pwm - PWM functionality
  
 
 #ifndef APP_PWM_ENABLED
-#define APP_PWM_ENABLED 1
+#define APP_PWM_ENABLED 0
 #endif
 
 // <e> APP_SCHEDULER_ENABLED - app_scheduler - Events scheduler
 //==========================================================
 #ifndef APP_SCHEDULER_ENABLED
-#define APP_SCHEDULER_ENABLED 1
+#define APP_SCHEDULER_ENABLED 0
 #endif
 #if  APP_SCHEDULER_ENABLED
 // <q> APP_SCHEDULER_WITH_PAUSE  - Enabling pause feature
@@ -2829,13 +2829,13 @@
  
 
 #ifndef APP_TWI_ENABLED
-#define APP_TWI_ENABLED 1
+#define APP_TWI_ENABLED 0
 #endif
 
 // <e> APP_UART_ENABLED - app_uart - UART driver
 //==========================================================
 #ifndef APP_UART_ENABLED
-#define APP_UART_ENABLED 1
+#define APP_UART_ENABLED 0
 #endif
 #if  APP_UART_ENABLED
 // <o> APP_UART_DRIVER_INSTANCE  - UART instance used
@@ -2853,35 +2853,35 @@
  
 
 #ifndef APP_USBD_CLASS_AUDIO_ENABLED
-#define APP_USBD_CLASS_AUDIO_ENABLED 1
+#define APP_USBD_CLASS_AUDIO_ENABLED 0
 #endif
 
 // <q> APP_USBD_CLASS_HID_ENABLED  - app_usbd_hid - USB HID class
  
 
 #ifndef APP_USBD_CLASS_HID_ENABLED
-#define APP_USBD_CLASS_HID_ENABLED 1
+#define APP_USBD_CLASS_HID_ENABLED 0
 #endif
 
 // <q> APP_USBD_HID_GENERIC_ENABLED  - app_usbd_hid_generic - USB HID generic
  
 
 #ifndef APP_USBD_HID_GENERIC_ENABLED
-#define APP_USBD_HID_GENERIC_ENABLED 1
+#define APP_USBD_HID_GENERIC_ENABLED 0
 #endif
 
 // <q> APP_USBD_HID_KBD_ENABLED  - app_usbd_hid_kbd - USB HID keyboard
  
 
 #ifndef APP_USBD_HID_KBD_ENABLED
-#define APP_USBD_HID_KBD_ENABLED 1
+#define APP_USBD_HID_KBD_ENABLED 0
 #endif
 
 // <q> APP_USBD_HID_MOUSE_ENABLED  - app_usbd_hid_mouse - USB HID mouse
  
 
 #ifndef APP_USBD_HID_MOUSE_ENABLED
-#define APP_USBD_HID_MOUSE_ENABLED 1
+#define APP_USBD_HID_MOUSE_ENABLED 0
 #endif
 
 // <q> BUTTON_ENABLED  - app_button - buttons handling module
@@ -2895,14 +2895,14 @@
  
 
 #ifndef CRC16_ENABLED
-#define CRC16_ENABLED 1
+#define CRC16_ENABLED 0
 #endif
 
 // <q> CRC32_ENABLED  - crc32 - CRC32 calculation routines
  
 
 #ifndef CRC32_ENABLED
-#define CRC32_ENABLED 1
+#define CRC32_ENABLED 0
 #endif
 
 // <q> ECC_ENABLED  - ecc - Elliptic Curve Cryptography Library
@@ -2922,7 +2922,7 @@
 // <e> HCI_MEM_POOL_ENABLED - hci_mem_pool - memory pool implementation used by HCI
 //==========================================================
 #ifndef HCI_MEM_POOL_ENABLED
-#define HCI_MEM_POOL_ENABLED 1
+#define HCI_MEM_POOL_ENABLED 0
 #endif
 #if  HCI_MEM_POOL_ENABLED
 // <o> HCI_TX_BUF_SIZE - TX buffer size in bytes. 
@@ -2946,7 +2946,7 @@
 // <e> HCI_SLIP_ENABLED - hci_slip - SLIP protocol implementation used by HCI
 //==========================================================
 #ifndef HCI_SLIP_ENABLED
-#define HCI_SLIP_ENABLED 1
+#define HCI_SLIP_ENABLED 0
 #endif
 #if  HCI_SLIP_ENABLED
 // <o> HCI_UART_BAUDRATE  - Default Baudrate
@@ -3007,7 +3007,7 @@
 // <e> HCI_TRANSPORT_ENABLED - hci_transport - HCI transport
 //==========================================================
 #ifndef HCI_TRANSPORT_ENABLED
-#define HCI_TRANSPORT_ENABLED 1
+#define HCI_TRANSPORT_ENABLED 0
 #endif
 #if  HCI_TRANSPORT_ENABLED
 // <o> HCI_MAX_PACKET_SIZE_IN_BITS - Maximum size of a single application packet in bits. 
@@ -3022,14 +3022,14 @@
  
 
 #ifndef LED_SOFTBLINK_ENABLED
-#define LED_SOFTBLINK_ENABLED 1
+#define LED_SOFTBLINK_ENABLED 0
 #endif
 
 // <q> LOW_POWER_PWM_ENABLED  - low_power_pwm - low_power_pwm module
  
 
 #ifndef LOW_POWER_PWM_ENABLED
-#define LOW_POWER_PWM_ENABLED 1
+#define LOW_POWER_PWM_ENABLED 0
 #endif
 
 // <e> MEM_MANAGER_ENABLED - mem_manager - Dynamic memory allocator
@@ -3100,7 +3100,7 @@
 // <e> NRF_CSENSE_ENABLED - nrf_csense - nrf_csense module
 //==========================================================
 #ifndef NRF_CSENSE_ENABLED
-#define NRF_CSENSE_ENABLED 1
+#define NRF_CSENSE_ENABLED 0
 #endif
 #if  NRF_CSENSE_ENABLED
 // <o> NRF_CSENSE_PAD_HYSTERESIS - Minimal value of change to decide that pad was touched. 
@@ -3141,7 +3141,7 @@
 // <e> NRF_DRV_CSENSE_ENABLED - nrf_drv_csense - Capacitive sensor module
 //==========================================================
 #ifndef NRF_DRV_CSENSE_ENABLED
-#define NRF_DRV_CSENSE_ENABLED 1
+#define NRF_DRV_CSENSE_ENABLED 0
 #endif
 #if  NRF_DRV_CSENSE_ENABLED
 // <o> TIMER0_FOR_CSENSE - First TIMER instance used by the driver (except nRF51) 
@@ -3168,14 +3168,14 @@
  
 
 #ifndef NRF_QUEUE_ENABLED
-#define NRF_QUEUE_ENABLED 1
+#define NRF_QUEUE_ENABLED 0
 #endif
 
 // <q> SLIP_ENABLED  - slip - SLIP encoding decoding
  
 
 #ifndef SLIP_ENABLED
-#define SLIP_ENABLED 1
+#define SLIP_ENABLED 0
 #endif
 
 // <h> app_usbd_cdc_acm - USB CDC ACM class
@@ -3185,7 +3185,7 @@
  
 
 #ifndef APP_USBD_CLASS_CDC_ACM_ENABLED
-#define APP_USBD_CLASS_CDC_ACM_ENABLED 1
+#define APP_USBD_CLASS_CDC_ACM_ENABLED 0
 #endif
 
 // <q> APP_USBD_CDC_ACM_LOG_ENABLED  - Enables logging in the module.
@@ -3205,7 +3205,7 @@
  
 
 #ifndef APP_USBD_CLASS_MSC_ENABLED
-#define APP_USBD_CLASS_MSC_ENABLED 1
+#define APP_USBD_CLASS_MSC_ENABLED 0
 #endif
 
 // <q> APP_USBD_MSC_CLASS_LOG_ENABLED  - Enables logging in the module.
@@ -3349,7 +3349,7 @@
 // <e> NRF_LOG_BACKEND_SERIAL_USES_UART - If enabled data is printed over UART
 //==========================================================
 #ifndef NRF_LOG_BACKEND_SERIAL_USES_UART
-#define NRF_LOG_BACKEND_SERIAL_USES_UART 1
+#define NRF_LOG_BACKEND_SERIAL_USES_UART 0
 #endif
 #if  NRF_LOG_BACKEND_SERIAL_USES_UART
 // <o> NRF_LOG_BACKEND_SERIAL_UART_BAUDRATE  - Default Baudrate

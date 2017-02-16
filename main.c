@@ -28,18 +28,60 @@
 #include "app_util_platform.h"
 #include "boards.h"
 #include "bsp.h"
-#if 0
 #include "nrf_drv_timer.h"
-const nrf_drv_timer_t MYTIMER = NRF_DRV_TIMER_INSTANCE(0);
-void timer_event_handler(nrf_timer_event_t event_type, void* p_context)
+#include "nrf_drv_saadc.h"
+#include "nrf_drv_rtc.h"
+#include "nrf_drv_gpiote.h"
+#include "main.h"
+
+int16_t adc_buffer[ADC_BUFFER_SIZE];
+nrf_drv_rtc_t rtc = NRF_DRV_RTC_INSTANCE(0);
+
+
+ /************** Inits ************************************************************************/
+
+void rtc_init(void)
 {
+    APP_ERROR_CHECK(nrf_drv_rtc_init(&rtc, &rtc_cfg, rtc_handler));
 }
-#endif
+
+void gpiote_init(void)
+{
+    APP_ERROR_CHECK(nrf_drv_gpiote_init());
+
+    APP_ERROR_CHECK(nrf_drv_gpiote_out_init(pin1, pin1_cfg));
+}
+
+/************** Handlers **********************************************************************/
+void rtc_handler(nrf_drv_rtc_int_type_t int_type)
+{
+
+}
+
+void adc_evt_handler(nrf_drv_saadc_evt_t const *p_event)
+{
+
+}
+
+void state_machine(void)
+{
+    static uint8_t state_counter = 0;
+
+    mux_state_change(state_counter);
+    //TODO change adc state
+    state_counter++;
+    if(state_counter == 12) state_counter = 0;
+}
+
 /**
  * @brief Function for application main entry.
  */
 int main(void)
 {
+    multiplexer_init();
+    adc_init();
+
+
     while (true)
     {
         // Do nothing.
