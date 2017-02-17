@@ -60,7 +60,7 @@ void rtc_handler(nrf_drv_rtc_int_type_t int_type)
 
 void adc_evt_handler(nrf_drv_saadc_evt_t const *p_event)
 {
-
+  if(p_event == NRF_DRV_SAADC_EVT_DONE){state_machine();}
 }
 
 void state_machine(void)
@@ -68,9 +68,14 @@ void state_machine(void)
     static uint8_t state_counter = 0;
 
     mux_state_change(state_counter);
-    //TODO change adc state
+    adc_sample(state_counter);
     state_counter++;
-    if(state_counter == 12) state_counter = 0;
+    if(state_counter == 12)
+    {
+      state_counter = 0;
+      psr_update();
+      //TODO pipe data to user
+    }
 }
 
 /**
@@ -78,13 +83,13 @@ void state_machine(void)
  */
 int main(void)
 {
+    psr_init();
     multiplexer_init();
     adc_init();
 
-
     while (true)
     {
-        // Do nothing.
+
     }
 }
 /** @} */
