@@ -1,0 +1,5 @@
+Changes:
+
+* Added state machine for multiplexing
+* multiplexer and adc in seperate source files
+* placed configurations in header files
