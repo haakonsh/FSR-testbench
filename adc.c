@@ -1,13 +1,18 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdint.h>
 #include "adc.h"
 #include "psr.h"
+#include "main.h"
 
 adc_buffer_t adc_buffer[NUMBER_OF_STATES];
+nrf_saadc_value_t *adc_buffer_p = adc_buffer[0];
 
 void adc_init(void)
 {
     nrf_drv_saadc_init(&adc_config, adc_evt_handler);
 
-    nrf_saadc_buffer_init(adc_buffer, ADC_BUFFER_SIZE);
+    nrf_saadc_buffer_init(&adc_buffer[0], ADC_BUFFER_SIZE);
 
     APP_ERROR_CHECK(nrf_drv_saadc_calibrate_offset());
 

@@ -1,9 +1,11 @@
-#include "stdio.h"
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include "nrf_gpio.h"
+//#include "nrf_drv_gpio.h"
+#include "multiplexer.h"
 
-const mux_t mux_state[12] = {state1, state2, state3, state4, state5, state6, state7, state8, state9, state10, state11, state12};
+const mux_t mux_state[12] = {0};
 
 void multiplexer_init(void)
 {
@@ -23,7 +25,7 @@ void multiplexer_init(void)
 
 void mux_state_change(uint8_t state)
 {
-    (mux_state[state].MUX1          == ON)? nrf_gpio_clear(ENABLE1_PIN) :                   nrf_gpio_set(ENABLE1_PIN);
+    (mux_state[state].MUX1          == ON)? nrf_gpio_clear(ENABLE1_PIN) : nrf_gpio_set(ENABLE1_PIN);
 
     (mux_state[state].MUX2          == ON)? nrf_gpio_clear(ENABLE2_PIN) : nrf_gpio_set(ENABLE2_PIN);
 

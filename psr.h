@@ -1,9 +1,13 @@
-
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include "sdk_common.h"
+#include "nrf_drv_common.h"
+#include "app_util_platform.h"
 
 #define NUMBER_OF_SENSORS     36
 #define NUMBER_OF_STATES      12
 #define SIZE_OF_STATE_GROUPS  3
-
 
 typedef struct
 {

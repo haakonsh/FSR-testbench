@@ -1,4 +1,9 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include "nrf_drv_saadc.h"
 #include "psr.h"
+#include "main.h"
 
 nrf_drv_saadc_config_t adc_config =
 {
@@ -19,7 +24,7 @@ nrf_saadc_channel_config_t adc_channel1_cfg =
     .burst       = NRF_SAADC_BURST_DISABLED,
     .pin_p       = (nrf_saadc_input_t)(ADC_CHANNEL1_PIN_P),
     .pin_n       = (nrf_saadc_input_t)(ADC_CHANNEL1_PIN_N)
-}
+};
 nrf_saadc_channel_config_t adc_channel2_cfg =
 {
     .resistor_p  = NRF_SAADC_RESISTOR_DISABLED,
@@ -31,7 +36,7 @@ nrf_saadc_channel_config_t adc_channel2_cfg =
     .burst       = NRF_SAADC_BURST_DISABLED,
     .pin_p       = (nrf_saadc_input_t)(ADC_CHANNEL2_PIN_P),
     .pin_n       = (nrf_saadc_input_t)(ADC_CHANNEL2_PIN_N)
-}
+};
 nrf_saadc_channel_config_t adc_channel3_cfg =
 {
     .resistor_p  = NRF_SAADC_RESISTOR_DISABLED,
@@ -43,12 +48,13 @@ nrf_saadc_channel_config_t adc_channel3_cfg =
     .burst       = NRF_SAADC_BURST_DISABLED,
     .pin_p       = (nrf_saadc_input_t)(ADC_CHANNEL3_PIN_P),
     .pin_n       = (nrf_saadc_input_t)(ADC_CHANNEL3_PIN_N)
-}
+};
 
 typedef struct
 {
-  uint16_t buffer[SIZE_OF_STATE_GROUPS];
+  nrf_saadc_value_t buffer[SIZE_OF_STATE_GROUPS];
 }adc_buffer_t;
 
 void adc_init(void);
-void adc_sample(void);
+void adc_sample(uint8_t state);
+extern adc_buffer_t adc_buffer[NUMBER_OF_STATES];

@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdint.h>
 #include "psr.h"
 
 uint8_t psr_map[NUMBER_OF_SENSORS] =
@@ -41,26 +44,26 @@ uint8_t psr_map[NUMBER_OF_SENSORS] =
 };
 psr_field_t psr[NUMBER_OF_SENSORS];
 
-}
 void psr_init(void)
 {
     uint8_t i,j,k = 0;
 
     for( i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
     {
-        psr[i] = {.state_group = j, .number_in_group = k};
+        psr[i].number = psr_map[i];
+        psr[i].state_group      = j; 
+        psr[i].number_in_group  = k;
         k++;
         if(k >= SIZE_OF_STATE_GROUPS)
         {
             k = 0;
             j++;
         }
-        psr[i].number = psr_map[i];
     }
 }
 void psr_update(void)
 {
-  for(i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
+  for(uint8_t i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
   {
     psr[i].value = adc_buffer[psr[i].state_group].buffer[psr[i].number_in_group];
   }

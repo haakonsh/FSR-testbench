@@ -16,6 +16,7 @@
 *
 */
 
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -33,10 +34,31 @@
 #include "nrf_drv_rtc.h"
 #include "nrf_drv_gpiote.h"
 #include "main.h"
+#include "multiplexer.h"
+#include "adc.h"
+#include "psr.h"
 
 int16_t adc_buffer[ADC_BUFFER_SIZE];
 nrf_drv_rtc_t rtc = NRF_DRV_RTC_INSTANCE(0);
+nrf_drv_gpiote_pin_t pin1 = 16;
 
+
+/************** Configs **********************************************************************/
+nrf_drv_rtc_config_t rtc_cfg =
+{                                                                                                \
+    .prescaler          = RTC_FREQ_TO_PRESCALER(RTC_DEFAULT_CONFIG_FREQUENCY),                   \
+    .interrupt_priority = RTC_DEFAULT_CONFIG_IRQ_PRIORITY,                                       \
+    .reliable           = RTC_DEFAULT_CONFIG_RELIABLE,                                           \
+    .tick_latency       = RTC_US_TO_TICKS(NRF_MAXIMUM_LATENCY_US, RTC_DEFAULT_CONFIG_FREQUENCY)  \
+};
+
+
+nrf_drv_gpiote_out_config_t pin1_cfg =
+{
+    .action     = NRF_GPIOTE_POLARITY_TOGGLE,
+    .init_state = NRF_GPIOTE_INITIAL_VALUE_LOW,
+    .task_pin   = true
+};
 
  /************** Inits ************************************************************************/
 
@@ -49,7 +71,7 @@ void gpiote_init(void)
 {
     APP_ERROR_CHECK(nrf_drv_gpiote_init());
 
-    APP_ERROR_CHECK(nrf_drv_gpiote_out_init(pin1, pin1_cfg));
+    APP_ERROR_CHECK(nrf_drv_gpiote_out_init(pin1, &pin1_cfg));
 }
 
 /************** Handlers **********************************************************************/
@@ -67,7 +89,7 @@ void state_machine(void)
 {
     static uint8_t state_counter = 0;
 
-    mux_state_change(state_counter);
+    state_change(state_counter);
     adc_sample(state_counter);
     state_counter++;
     if(state_counter >= 12)
