@@ -1,5 +1,4 @@
-
-
+#include "psr.h"
 
 nrf_drv_saadc_config_t adc_config =
 {
@@ -46,4 +45,10 @@ nrf_saadc_channel_config_t adc_channel3_cfg =
     .pin_n       = (nrf_saadc_input_t)(ADC_CHANNEL3_PIN_N)
 }
 
+typedef struct
+{
+  uint16_t buffer[SIZE_OF_STATE_GROUPS];
+}adc_buffer_t;
+
 void adc_init(void);
+void adc_sample(void);

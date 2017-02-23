@@ -1,5 +1,5 @@
 Changes:
 
-* Added state machine for multiplexing
-* multiplexer and adc in seperate source files
-* placed configurations in header files
+* placed adc, multiplexer, and PSR in their repective pair of source and header files.
+* added includes to various headers
+* filled in the sensor map, and updated psr_init to include it. 

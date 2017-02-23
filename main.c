@@ -70,7 +70,7 @@ void state_machine(void)
     mux_state_change(state_counter);
     adc_sample(state_counter);
     state_counter++;
-    if(state_counter == 12)
+    if(state_counter >= 12)
     {
       state_counter = 0;
       psr_update();
