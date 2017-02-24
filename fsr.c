@@ -1,9 +1,14 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include "psr.h"
+#include "fsr.h"
+#include "adc.h" 
 
-uint8_t psr_map[NUMBER_OF_SENSORS] =
+extern nrf_saadc_value_t adc_buffer[NUMBER_OF_STATES][SIZE_OF_STATE_GROUPS];
+
+struct fsr_field_t fsr[NUMBER_OF_SENSORS];
+
+uint8_t fsr_map[NUMBER_OF_SENSORS] =
 {
   18,  // #1
   11,  // #2
@@ -42,17 +47,16 @@ uint8_t psr_map[NUMBER_OF_SENSORS] =
   9 ,  // #35
   22,  // #36
 };
-psr_field_t psr[NUMBER_OF_SENSORS];
 
-void psr_init(void)
+void fsr_init(void)
 {
     uint8_t i,j,k = 0;
 
     for( i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
     {
-        psr[i].number = psr_map[i];
-        psr[i].state_group      = j; 
-        psr[i].number_in_group  = k;
+        fsr[i].number = fsr_map[i];
+        fsr[i].state_group      = j;
+        fsr[i].number_in_group  = k;
         k++;
         if(k >= SIZE_OF_STATE_GROUPS)
         {
@@ -61,9 +65,10 @@ void psr_init(void)
         }
     }
 }
-void psr_update(void)
+void fsr_update(void)
 {
   for(uint8_t i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
   {
-    psr[i].value = adc_buffer[psr[i].state_group].buffer[psr[i].number_in_group];
+    fsr[i].value = adc_buffer[fsr[i].state_group][fsr[i].number_in_group];
   }
+}

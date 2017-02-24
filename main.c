@@ -36,10 +36,14 @@
 #include "main.h"
 #include "multiplexer.h"
 #include "adc.h"
-#include "psr.h"
+#include "fsr.h"
 
-int16_t adc_buffer[ADC_BUFFER_SIZE];
+extern struct fsr_field_t fsr[NUMBER_OF_SENSORS];
+
+extern nrf_saadc_value_t adc_buffer[NUMBER_OF_STATES][SIZE_OF_STATE_GROUPS];
+
 nrf_drv_rtc_t rtc = NRF_DRV_RTC_INSTANCE(0);
+
 nrf_drv_gpiote_pin_t pin1 = 16;
 
 
@@ -95,7 +99,7 @@ void state_machine(void)
     if(state_counter >= 12)
     {
       state_counter = 0;
-      psr_update();
+      fsr_update();
       //TODO pipe data to user
     }
 }
@@ -105,7 +109,7 @@ void state_machine(void)
  */
 int main(void)
 {
-    psr_init();
+    fsr_init();
     multiplexer_init();
     adc_init();
 

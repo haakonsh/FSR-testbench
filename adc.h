@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "nrf_drv_saadc.h"
-#include "psr.h"
+#include "fsr.h"
 #include "main.h"
 
 nrf_drv_saadc_config_t adc_config =
@@ -50,11 +50,5 @@ nrf_saadc_channel_config_t adc_channel3_cfg =
     .pin_n       = (nrf_saadc_input_t)(ADC_CHANNEL3_PIN_N)
 };
 
-typedef struct
-{
-  nrf_saadc_value_t buffer[SIZE_OF_STATE_GROUPS];
-}adc_buffer_t;
-
 void adc_init(void);
 void adc_sample(uint8_t state);
-extern adc_buffer_t adc_buffer[NUMBER_OF_STATES];
