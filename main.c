@@ -33,10 +33,10 @@
 #include "nrf_drv_saadc.h"
 #include "nrf_drv_rtc.h"
 #include "nrf_drv_gpiote.h"
-#include "main.h"
 #include "multiplexer.h"
 #include "adc.h"
 #include "fsr.h"
+#include "main.h"
 
 extern struct fsr_field_t fsr[NUMBER_OF_SENSORS];
 
@@ -93,8 +93,8 @@ void state_machine(void)
 {
     static uint8_t state_counter = 0;
 
-    state_change(state_counter);
-    adc_sample(state_counter);
+    mux_state_change(state_counter);
+    adc_sample_state(state_counter);
     state_counter++;
     if(state_counter >= 12)
     {

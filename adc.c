@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include "main.h"
+#define ADC
 #include "adc.h"
 #include "fsr.h"
-#include "main.h"
+
 
 nrf_saadc_value_t adc_buffer[NUMBER_OF_STATES][SIZE_OF_STATE_GROUPS];
 nrf_saadc_value_t *adc_buffer_p = &adc_buffer[0][0];
@@ -21,7 +23,7 @@ void adc_init(void)
     APP_ERROR_CHECK(nrf_drv_saadc_channel_init(ADC_CHANNEL3, &adc_channel3_cfg));
 }
 
-void adc_sample(uint8_t state)
+void adc_sample_state(uint8_t state)
 {
   APP_ERROR_CHECK(nrf_drv_saadc_buffer_convert(&adc_buffer[state][0], SIZE_OF_STATE_GROUPS));
   APP_ERROR_CHECK(nrf_drv_saadc_sample());

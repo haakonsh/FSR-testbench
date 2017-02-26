@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include "adc.h"
 #include "fsr.h"
-#include "adc.h" 
 
 extern nrf_saadc_value_t adc_buffer[NUMBER_OF_STATES][SIZE_OF_STATE_GROUPS];
 
 struct fsr_field_t fsr[NUMBER_OF_SENSORS];
 
-uint8_t fsr_map[NUMBER_OF_SENSORS] =
+// Map of the sensors on the PCB prototype.
+uint8_t fsr_map[NUMBER_OF_SENSORS] =    
 {
   18,  // #1
   11,  // #2
@@ -54,6 +55,7 @@ void fsr_init(void)
 
     for( i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
     {
+        fsr[i].value = 0;
         fsr[i].number = fsr_map[i];
         fsr[i].state_group      = j;
         fsr[i].number_in_group  = k;

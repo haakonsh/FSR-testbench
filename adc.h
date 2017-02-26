@@ -1,13 +1,17 @@
+#ifndef ADC_H
+#define ADC_H
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include "nrf_drv_saadc.h"
-#include "fsr.h"
 #include "main.h"
+#include "fsr.h"
 
+#ifdef ADC  // Header guard against defining the configs multiple times.
 nrf_drv_saadc_config_t adc_config =
 {
-    .resolution         = NRF_SAADC_RESOLUTION_8BIT,
+    .resolution         = NRF_SAADC_RESOLUTION_12BIT,
     .oversample         = NRF_SAADC_OVERSAMPLE_DISABLED,
     .interrupt_priority = SAADC_CONFIG_IRQ_PRIORITY,
     .low_power_mode     = SAADC_CONFIG_LP_MODE
@@ -49,6 +53,10 @@ nrf_saadc_channel_config_t adc_channel3_cfg =
     .pin_p       = (nrf_saadc_input_t)(ADC_CHANNEL3_PIN_P),
     .pin_n       = (nrf_saadc_input_t)(ADC_CHANNEL3_PIN_N)
 };
-
+#endif
+// Initializes the ADC
 void adc_init(void);
-void adc_sample(uint8_t state);
+// Samples the three differntial channels one time(one state), and stores the result in the corresponing adc_buffer[state].
+void adc_sample_state(uint8_t state);
+
+#endif

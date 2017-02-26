@@ -1,5 +1,6 @@
 Changes:
 
-* placed adc, multiplexer, and PSR in their repective pair of source and header files.
-* added includes to various headers
-* filled in the sensor map, and updated psr_init to include it. 
+* fixed bugs, added header guards
+* added some comments
+
+compiles sucessfully

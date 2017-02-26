@@ -1,3 +1,6 @@
+//#ifndef MULTIPLEXER_H
+//#define MULTIPLEXER_H
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -22,7 +25,9 @@ typedef struct{
     mux_state_t MUX4_SWITCH;
 }mux_t;
 
+#ifdef MULTIPLEXER //Header guard against multiple definitions of the multiplexer states. Only the file containing #define MULTIPLEXER gets access to the following definitions.
 
+// The various mux_t states below defines the state of the multiplexers on the PCB, in order to be able to sample each sensor.
 mux_t state1 = {
     .MUX1           = ON,
     .MUX2           = OFF,
@@ -107,6 +112,9 @@ mux_t state12 = {
     .MUX_SWITCHES   = ON,
     .MUX4_SWITCH    = ON
 };
+#endif
 
-void state_change(uint8_t state_counter);
 void multiplexer_init(void);
+void mux_state_change(uint8_t state_counter);
+
+//#endif

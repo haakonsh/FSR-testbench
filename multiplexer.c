@@ -2,8 +2,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "nrf_gpio.h"
+#define MULTIPLEXER         //Header guard against multiple definitions of the multiplexer states.
 #include "multiplexer.h"
-
 mux_t mux_state[12] = {OFF};
 
 void multiplexer_init(void)

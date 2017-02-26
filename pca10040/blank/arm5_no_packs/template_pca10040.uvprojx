@@ -402,21 +402,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Board Support</GroupName>
-          <Files>
-            <File>
-              <FileName>bsp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\components\libraries\bsp\bsp.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_nfc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\components\libraries\bsp\bsp_nfc.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>Documentation</GroupName>
           <Files>
             <File>
@@ -429,11 +414,6 @@
         <Group>
           <GroupName>nRF_Drivers</GroupName>
           <Files>
-            <File>
-              <FileName>nrf_drv_common.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\components\drivers_nrf\common\nrf_drv_common.c</FilePath>
-            </File>
             <File>
               <FileName>nrf_drv_gpiote.c</FileName>
               <FileType>1</FileType>
@@ -474,6 +454,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\components\drivers_nrf\nrf_soc_nosd\nrf_soc.c</FilePath>
             </File>
+            <File>
+              <FileName>nrf_drv_common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\..\components\drivers_nrf\common\nrf_drv_common.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -490,69 +475,9 @@
               <FilePath>..\..\..\..\..\..\components\libraries\util\app_error_weak.c</FilePath>
             </File>
             <File>
-              <FileName>hardfault_handler_keil.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\components\libraries\hardfault\nrf52\handler\hardfault_handler_keil.c</FilePath>
-            </File>
-            <File>
-              <FileName>hardfault_implementation.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\components\libraries\hardfault\hardfault_implementation.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf_assert.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\components\libraries\util\nrf_assert.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf_queue.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\components\libraries\queue\nrf_queue.c</FilePath>
-            </File>
-            <File>
-              <FileName>sdk_errors.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\components\libraries\util\sdk_errors.c</FilePath>
-            </File>
-            <File>
               <FileName>app_util_platform.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\components\libraries\util\app_util_platform.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>nRF_Log</GroupName>
-          <Files>
-            <File>
-              <FileName>nrf_log_backend_serial.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\components\libraries\log\src\nrf_log_backend_serial.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf_log_frontend.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\components\libraries\log\src\nrf_log_frontend.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>nRF_Segger_RTT</GroupName>
-          <Files>
-            <File>
-              <FileName>RTT_Syscalls_KEIL.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\external\segger_rtt\RTT_Syscalls_KEIL.c</FilePath>
-            </File>
-            <File>
-              <FileName>SEGGER_RTT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\external\segger_rtt\SEGGER_RTT.c</FilePath>
-            </File>
-            <File>
-              <FileName>SEGGER_RTT_printf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\external\segger_rtt\SEGGER_RTT_printf.c</FilePath>
             </File>
           </Files>
         </Group>
