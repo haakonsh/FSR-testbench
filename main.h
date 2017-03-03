@@ -8,7 +8,7 @@
 #include "nrf_drv_rtc.h"
 #include "nrf_drv_gpiote.h"
 
-// #define ADC_BUFFER_SIZE     1024 //Unused
+#define ADC_BUFFER_SIZE     1024 
 
 #define ADC_CHANNEL1        1
 #define ADC_CHANNEL2        2

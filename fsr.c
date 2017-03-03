@@ -4,12 +4,18 @@
 #include "adc.h"
 #include "fsr.h"
 
-extern nrf_saadc_value_t adc_buffer[NUMBER_OF_STATES][SIZE_OF_STATE_GROUPS];
+// external declaration of 'adc_buffer', already declared in adc.c
+extern adc_struct_t adc_buffer[NUMBER_OF_STATES];
 
+/*This is the main data array. It contains the FSR number identifier, which state it belongs to, which adc channel it belongs to,
+and the last adc sample. In the future the adc sample will not be stored in this array. */
 struct fsr_field_t fsr[NUMBER_OF_SENSORS];
 
-// Map of the sensors on the PCB prototype.
-uint8_t fsr_map[NUMBER_OF_SENSORS] =    
+/* Map of the sensors on the PCB prototype. This array is used to encode the physical placement
+of the individual sensors to the adc samples in the 'fsr[i]' data array. This secuence of numbers is deterined
+by the physical multiplexing of the sensors on the PCB. Each sensor can only be sampled when the multiplexors are in
+the state of which the sensor belongs to. See the schematics for a deeper understanding of how the multiplexing is done in-circuit.*/
+uint8_t fsr_map[NUMBER_OF_SENSORS] =
 {
   18,  // #1
   11,  // #2
@@ -48,29 +54,41 @@ uint8_t fsr_map[NUMBER_OF_SENSORS] =
   9 ,  // #35
   22,  // #36
 };
-
+// initializes the global struct 'fsr'
 void fsr_init(void)
 {
     uint8_t i,j,k = 0;
 
     for( i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
     {
-        fsr[i].value = 0;
-        fsr[i].number = fsr_map[i];
-        fsr[i].state_group      = j;
-        fsr[i].number_in_group  = k;
+        fsr[i].value        = 0;
+        fsr[i].number       = fsr_map[i];
+        fsr[i].state        = j;            // range: 0-(NUMBER_OF_STATES - 1)
+        fsr[i].adc_channel  = k;            // range: 0-(NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS -1)
         k++;
-        if(k >= SIZE_OF_STATE_GROUPS)
+        if(k >= NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS)
         {
             k = 0;
-            j++;
+            j++;                            // increment the state once the .adc_channel information has been set.
         }
     }
 }
+
+// This function copies the sensor samples from the adc_buffer into it's respective fsr_field_t struct.
 void fsr_update(void)
 {
   for(uint8_t i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
   {
-    fsr[i].value = adc_buffer[fsr[i].state_group][fsr[i].number_in_group];
+    switch (fsr[i].adc_channel)
+    {
+        case 0: fsr[i].value = adc_buffer[fsr[i].state].adc_channel1;
+        break;
+
+        case 1: fsr[i].value = adc_buffer[fsr[i].state].adc_channel2;
+        break;
+
+        case 2: fsr[i].value = adc_buffer[fsr[i].state].adc_channel3;
+        break;
+    }
   }
 }

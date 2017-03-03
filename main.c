@@ -40,7 +40,7 @@
 
 extern struct fsr_field_t fsr[NUMBER_OF_SENSORS];
 
-extern nrf_saadc_value_t adc_buffer[NUMBER_OF_STATES][SIZE_OF_STATE_GROUPS];
+extern nrf_saadc_value_t adc_buffer[NUMBER_OF_STATES];
 
 nrf_drv_rtc_t rtc = NRF_DRV_RTC_INSTANCE(0);
 

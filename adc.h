@@ -53,7 +53,16 @@ nrf_saadc_channel_config_t adc_channel3_cfg =
     .pin_p       = (nrf_saadc_input_t)(ADC_CHANNEL3_PIN_P),
     .pin_n       = (nrf_saadc_input_t)(ADC_CHANNEL3_PIN_N)
 };
+
 #endif
+// This structure contains NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS(3) number of adc samples.
+// To ensure that the members are aligned with the samples from the SAADC, we pack the struct.
+__packed typedef struct
+{
+    nrf_saadc_value_t adc_channel1;
+    nrf_saadc_value_t adc_channel2;
+    nrf_saadc_value_t adc_channel3;
+} adc_struct_t;
 // Initializes the ADC
 void adc_init(void);
 // Samples the three differntial channels one time(one state), and stores the result in the corresponing adc_buffer[state].
