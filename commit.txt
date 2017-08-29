@@ -1,11 +1,5 @@
 Changes:
 
-* Changed the fsr_field_t member names.
-* Changed the adc_buffer from a two dimensional array to a one dimensional array of a packed struct adc_struct_t
-* Changed adc_init(), adc_sample_state(), and fsr_update() to accomodate the new adc_buffer
-* Chenged multiplexer_init() in order to initialize the mux_state array with the appropriate multiplexer state structs
-* Fixed a bug in nrf_drv_saadc.c where the NRF_SAADC_EVENT_CALIBRATEDONE would not fire. The corresponding interrupt was never enabled.
-    see: http://projecttools.nordicsemi.no/jira/browse/NRFFOETT-1636?filter=-2
-* Added some comments
+* Ported to SDK14. 
 
 -compiles sucessfully

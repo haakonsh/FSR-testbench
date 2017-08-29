@@ -25,7 +25,6 @@
 #include "nordic_common.h"
 #include "nrf_delay.h"
 #include "app_error.h"
-#include "app_timer.h"
 #include "app_util_platform.h"
 #include "boards.h"
 #include "bsp.h"
@@ -42,21 +41,12 @@ extern struct fsr_field_t fsr[NUMBER_OF_SENSORS];
 
 extern nrf_saadc_value_t adc_buffer[NUMBER_OF_STATES];
 
-nrf_drv_rtc_t rtc = NRF_DRV_RTC_INSTANCE(0);
+nrf_drv_rtc_t rtc = NRF_DRV_RTC_INSTANCE(1);
 
 nrf_drv_gpiote_pin_t pin1 = 16;
 
 
 /************** Configs **********************************************************************/
-nrf_drv_rtc_config_t rtc_cfg =
-{                                                                                                \
-    .prescaler          = RTC_FREQ_TO_PRESCALER(RTC_DEFAULT_CONFIG_FREQUENCY),                   \
-    .interrupt_priority = RTC_DEFAULT_CONFIG_IRQ_PRIORITY,                                       \
-    .reliable           = RTC_DEFAULT_CONFIG_RELIABLE,                                           \
-    .tick_latency       = RTC_US_TO_TICKS(NRF_MAXIMUM_LATENCY_US, RTC_DEFAULT_CONFIG_FREQUENCY)  \
-};
-
-
 nrf_drv_gpiote_out_config_t pin1_cfg =
 {
     .action     = NRF_GPIOTE_POLARITY_TOGGLE,
@@ -65,11 +55,6 @@ nrf_drv_gpiote_out_config_t pin1_cfg =
 };
 
  /************** Inits ************************************************************************/
-
-void rtc_init(void)
-{
-    APP_ERROR_CHECK(nrf_drv_rtc_init(&rtc, &rtc_cfg, rtc_handler));
-}
 
 void gpiote_init(void)
 {
