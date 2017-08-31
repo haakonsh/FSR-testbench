@@ -1,5 +1,7 @@
 Changes:
 
-* Ported to SDK14. 
+* Changed the modules to pass a pointer to the buffers instead of the buffers themselves 
+* Added a flag in the adc evt handler to let the adc module know when the calibration event has occured
+
 
 -compiles sucessfully

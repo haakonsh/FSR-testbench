@@ -39,11 +39,16 @@
 
 extern struct fsr_field_t fsr[NUMBER_OF_SENSORS];
 
-extern nrf_saadc_value_t adc_buffer[NUMBER_OF_STATES];
-
 nrf_drv_rtc_t rtc = NRF_DRV_RTC_INSTANCE(1);
 
 nrf_drv_gpiote_pin_t pin1 = 16;
+
+// This buffer will be filled with the raw samples from the SAADC. 
+adc_struct_t adc_buffer[NUMBER_OF_STATES];
+
+/*This is the main data array. It contains the FSR number identifier, which state it belongs to, which adc channel it belongs to,
+and the last adc sample. In the future the adc sample will not be stored in this array. */
+struct fsr_field_t fsr_buffer[NUMBER_OF_SENSORS];
 
 
 /************** Configs **********************************************************************/
@@ -71,7 +76,21 @@ void rtc_handler(nrf_drv_rtc_int_type_t int_type)
 
 void adc_evt_handler(nrf_drv_saadc_evt_t const *p_event)
 {
-  if(p_event == NRF_DRV_SAADC_EVT_DONE){state_machine();}
+    nrf_drv_saadc_evt_type_t event = p_event->type;
+    switch(event)
+    {
+        case NRF_DRV_SAADC_EVT_CALIBRATEDONE: 
+            set_calibrate_flag();
+            break;
+            
+        case NRF_DRV_SAADC_EVT_LIMIT: 
+            break;
+
+        case NRF_DRV_SAADC_EVT_DONE: 
+            break;
+        default:
+        break;
+    }
 }
 
 void state_machine(void)
@@ -79,12 +98,13 @@ void state_machine(void)
     static uint8_t state_counter = 0;
 
     mux_state_change(state_counter);
-    adc_sample_state(state_counter);
+    adc_sample_state(state_counter, adc_buffer);
     state_counter++;
     if(state_counter >= 12)
     {
       state_counter = 0;
-      fsr_update();
+      fsr_update(adc_buffer, fsr_buffer);
+
       //TODO pipe data to user
     }
 }
@@ -94,13 +114,14 @@ void state_machine(void)
  */
 int main(void)
 {
-    fsr_init();
+    fsr_init(fsr_buffer);
     multiplexer_init();
-    adc_init();
+    adc_init(adc_evt_handler, adc_buffer);
 
     while (true)
     {
-
+        state_machine();
+        
     }
 }
 /** @} */

@@ -4,7 +4,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include "nrf_saadc.h"
 #include "nrf_drv_saadc.h"
+#include "adc.h"
 
 #define NUMBER_OF_SENSORS                       36
 #define NUMBER_OF_STATES                        12    // A state contains NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS amount of sensors
@@ -19,8 +21,8 @@ struct fsr_field_t
   nrf_saadc_value_t value   : 16; // The value of the sensor
 };
 // Initializes the sensor data structures.
-void fsr_init(void);
+void fsr_init(struct fsr_field_t *fsr);
 // Copies the values of the ADC samples into their respective fsr.value field.
-void fsr_update(void);
+void fsr_update(adc_struct_t *adc_buffer, struct fsr_field_t *fsr);
 
 #endif

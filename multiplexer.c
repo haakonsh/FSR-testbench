@@ -10,10 +10,9 @@
 // This array contains the information for the state of the muliplexers control signals(ON/OFF), given a 'state'. Initialized as OFF(high output).
 mux_t mux_state[12] = {OFF};
 
-// The 4 TS3A27518EPWR multilexers requires 5 control signals in order to multiplex 36 sensors.
+// The 4 TS3A27518EPWR multilexers requires 5 control signals and 12 states in order to multiplex 36 sensors with the current circuit schematics.
 void multiplexer_init(void)
 {
-
     mux_state[0]    = state1;
     mux_state[1]    = state2;
     mux_state[2]    = state3;
@@ -27,7 +26,7 @@ void multiplexer_init(void)
     mux_state[10]   = state11;
     mux_state[11]   = state12;
     // TODO: Why can't I set mux_state the following way? :
-    // mux_state = {state1, state2, state3, state4, state5, state6, state7, state8, state9, state10, state11, state12};
+    // mux_state[] = {state1, state2, state3, state4, state5, state6, state7, state8, state9, state10, state11, state12};
 
     nrf_gpio_cfg_output(ENABLE1_PIN);
     nrf_gpio_cfg_output(ENABLE2_PIN);
