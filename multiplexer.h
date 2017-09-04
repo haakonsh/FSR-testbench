@@ -5,11 +5,11 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define ENABLE1_PIN         0       // MUX1 pin
-#define ENABLE2_PIN         1       // MUX2 pin
-#define ENABLE3_PIN         21      // MUX3 pin
-#define MUX_SWITCH_PIN      5       // pin that triggers the switches
-#define MUX4_SWITCH_PIN     6       // pin that triggers the switch on MUX4
+#define ENABLE1_PIN         5       // MUX1 pin
+#define ENABLE2_PIN         6       // MUX2 pin
+#define ENABLE3_PIN         7       // MUX3 pin
+#define MUX_SWITCH_PIN      8       // pin that triggers the switches
+#define MUX4_SWITCH_PIN     12      // pin that triggers the switch on MUX4
 
 typedef enum
 {
