@@ -25,6 +25,9 @@
 #include "nordic_common.h"
 #include "nrf_delay.h"
 #include "app_error.h"
+#include "nrf_log.h"
+#include "nrf_log_ctrl.h"
+#include "nrf_log_default_backends.h"
 #include "app_util_platform.h"
 #include "boards.h"
 #include "bsp.h"
@@ -50,6 +53,33 @@ adc_struct_t adc_buffer[NUMBER_OF_STATES];
 and the last adc sample. In the future the adc sample will not be stored in this array. */
 struct fsr_field_t fsr_buffer[NUMBER_OF_SENSORS];
 
+// Flag that eneables the main context to execute the next iteration of the state machine. 
+// Set to true to start off the state machine.
+bool adc_done_flag = true;
+
+/**@brief Function for initializing the nrf log module.
+ */
+static void log_init(void)
+{
+    ret_code_t err_code = NRF_LOG_INIT(NULL);
+    APP_ERROR_CHECK(err_code);
+
+    NRF_LOG_DEFAULT_BACKENDS_INIT();
+}
+
+void app_error_fault_handler(uint32_t id, uint32_t pc, uint32_t info)
+{
+    NRF_LOG_ERROR("Fatal");
+    NRF_LOG_FINAL_FLUSH();
+    //NRF_BREAKPOINT_COND;
+    // On assert, the system can only recover with a reset.
+#ifndef DEBUG
+    NRF_LOG_INFO("Hit weak handler");
+    NVIC_SystemReset();
+#else
+    app_error_save_and_stop(id, pc, info);
+#endif // DEBUG
+}
 
 /************** Configs **********************************************************************/
 nrf_drv_gpiote_out_config_t pin1_cfg =
@@ -87,14 +117,16 @@ void adc_evt_handler(nrf_drv_saadc_evt_t const *p_event)
             break;
 
         case NRF_DRV_SAADC_EVT_DONE: 
+            adc_done_flag = true;
             break;
         default:
         break;
     }
 }
 
-void state_machine(void)
+void state_machine(bool *flag)
 {
+    flag = false;
     static uint8_t state_counter = 0;
 
     mux_state_change(state_counter);
@@ -114,14 +146,20 @@ void state_machine(void)
  */
 int main(void)
 {
+    log_init();
     fsr_init(fsr_buffer);
     multiplexer_init();
     adc_init(adc_evt_handler, adc_buffer);
 
     while (true)
     {
-        state_machine();
-        
+        if(adc_done_flag)
+        {
+            state_machine(&adc_done_flag);
+        } 
+        __WFE();
+        __SEV();
+        __WFE();       
     }
 }
 /** @} */

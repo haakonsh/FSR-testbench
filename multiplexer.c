@@ -25,9 +25,7 @@ void multiplexer_init(void)
     mux_state[9]    = state10;
     mux_state[10]   = state11;
     mux_state[11]   = state12;
-    // TODO: Why can't I set mux_state the following way? :
-    // mux_state[] = {state1, state2, state3, state4, state5, state6, state7, state8, state9, state10, state11, state12};
-
+    
     nrf_gpio_cfg_output(ENABLE1_PIN);
     nrf_gpio_cfg_output(ENABLE2_PIN);
     nrf_gpio_cfg_output(ENABLE3_PIN);

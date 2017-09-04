@@ -66,10 +66,6 @@ void adc_init(nrf_drv_saadc_event_handler_t  event_handler, adc_struct_t *adc_bu
     calibrate_done_flag = false;
 
     nrf_drv_saadc_init(&adc_config, event_handler);
-
-    //TODO: Don't think I need to init the adc buffer here, done automatically in nrf_drv_saadc_buff_conver.
-    //nrf_saadc_buffer_init((nrf_saadc_value_t*)adc_buffer, ADC_BUFFER_SIZE);
-    
     
     APP_ERROR_CHECK(nrf_drv_saadc_calibrate_offset());
 
@@ -84,14 +80,9 @@ void adc_init(nrf_drv_saadc_event_handler_t  event_handler, adc_struct_t *adc_bu
     APP_ERROR_CHECK(nrf_drv_saadc_channel_init(ADC_CHANNEL2, &adc_channel2_cfg));
     APP_ERROR_CHECK(nrf_drv_saadc_channel_init(ADC_CHANNEL3, &adc_channel3_cfg));
 }
-// This function sets the adc buffer pointer to the adress of the given state's adc_buffer. The adc_buffer has to be typcasted
-// in order to point to a member of it's __packed struct type.
+// This function sets the adc buffer pointer to the adress of the first member of the given state.
 void adc_sample_state(uint8_t state, adc_struct_t *adc_buffer_p)
-{
-    // Create an array of pointers of adc_struct_t where element 0 contains the address of element 0 in our ADC buffer of adc_struct_t.
-    adc_struct_t *adc_buffer[12];
-    adc_buffer[0] = adc_buffer_p;
-   
-    APP_ERROR_CHECK(nrf_drv_saadc_buffer_convert((nrf_saadc_value_t *)adc_buffer[state]->adc_channel1, NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS));
+{   
+    APP_ERROR_CHECK(nrf_drv_saadc_buffer_convert((nrf_saadc_value_t *)&(adc_buffer_p[state]), NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS));
     APP_ERROR_CHECK(nrf_drv_saadc_sample());
 }
