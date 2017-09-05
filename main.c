@@ -44,8 +44,6 @@ extern struct fsr_field_t fsr[NUMBER_OF_SENSORS];
 
 nrf_drv_rtc_t rtc = NRF_DRV_RTC_INSTANCE(1);
 
-nrf_drv_gpiote_pin_t pin1 = 16;
-
 // This buffer will be filled with the raw samples from the SAADC. 
 adc_struct_t adc_buffer[NUMBER_OF_STATES];
 
@@ -82,21 +80,8 @@ void app_error_fault_handler(uint32_t id, uint32_t pc, uint32_t info)
 }
 
 /************** Configs **********************************************************************/
-nrf_drv_gpiote_out_config_t pin1_cfg =
-{
-    .action     = NRF_GPIOTE_POLARITY_TOGGLE,
-    .init_state = NRF_GPIOTE_INITIAL_VALUE_LOW,
-    .task_pin   = true
-};
 
  /************** Inits ************************************************************************/
-
-void gpiote_init(void)
-{
-    APP_ERROR_CHECK(nrf_drv_gpiote_init());
-
-    APP_ERROR_CHECK(nrf_drv_gpiote_out_init(pin1, &pin1_cfg));
-}
 
 /************** Handlers **********************************************************************/
 void rtc_handler(nrf_drv_rtc_int_type_t int_type)
@@ -124,15 +109,14 @@ void adc_evt_handler(nrf_drv_saadc_evt_t const *p_event)
     }
 }
 
-void state_machine(bool *flag)
+void state_machine(void)
 {
-    flag = false;
     static uint8_t state_counter = 0;
 
     mux_state_change(state_counter);
     adc_sample_state(state_counter, adc_buffer);
     state_counter++;
-    if(state_counter >= 12)
+    if(state_counter >= 6)
     {
       state_counter = 0;
       fsr_update(adc_buffer, fsr_buffer);
@@ -155,7 +139,8 @@ int main(void)
     {
         if(adc_done_flag)
         {
-            state_machine(&adc_done_flag);
+            adc_done_flag = false;
+            state_machine();
         } 
         __WFE();
         __SEV();
