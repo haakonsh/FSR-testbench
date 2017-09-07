@@ -9,18 +9,18 @@
 #define ADC_BUFFER_SIZE     1024 
 
 
-#define ADC_CHANNEL1        1
-#define ADC_CHANNEL2        2
-#define ADC_CHANNEL3        3
+#define ADC_CHANNEL1        0
+#define ADC_CHANNEL2        1
+#define ADC_CHANNEL3        2
 
-#define ADC_CHANNEL1_PIN_P  3       // V1/2+
-#define ADC_CHANNEL1_PIN_N  4       // V1/2-
+#define ADC_CHANNEL1_PIN_P  NRF_SAADC_INPUT_AIN4    // V1/2+
+#define ADC_CHANNEL1_PIN_N  NRF_SAADC_INPUT_AIN2    // V1/2-
 
-#define ADC_CHANNEL2_PIN_P  28      // V3/4+
-#define ADC_CHANNEL2_PIN_N  29      // V3/4-
+#define ADC_CHANNEL2_PIN_P  NRF_SAADC_INPUT_AIN1    // V3/4+
+#define ADC_CHANNEL2_PIN_N  NRF_SAADC_INPUT_AIN5    // V3/4-
 
-#define ADC_CHANNEL3_PIN_P  30      // V5/6+
-#define ADC_CHANNEL3_PIN_N  31      // V5/6-
+#define ADC_CHANNEL3_PIN_P  NRF_SAADC_INPUT_AIN6    // V5/6+
+#define ADC_CHANNEL3_PIN_N  NRF_SAADC_INPUT_AIN7    // V5/6-
 
 // This structure contains NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS(3) number of adc samples.
 // To ensure that the members are aligned with the samples from the SAADC, we pack the struct.
@@ -29,6 +29,7 @@ __packed typedef struct
     nrf_saadc_value_t adc_channel1;
     nrf_saadc_value_t adc_channel2;
     nrf_saadc_value_t adc_channel3;
+    nrf_saadc_value_t padding;
 }adc_struct_t;
 
 // Initializes the ADC

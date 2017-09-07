@@ -23,6 +23,7 @@ void multiplexer_init(void)
     nrf_gpio_cfg_output(ENABLE1_PIN);
     nrf_gpio_cfg_output(ENABLE2_PIN);
     nrf_gpio_cfg_output(ENABLE3_PIN);
+    nrf_gpio_cfg_output(MUX4_PIN);
     nrf_gpio_cfg_output(MUX_SWITCH_PIN);
 
     /* The multiplexer's control signal are active low. The ENABLE1_PIN, ENABLE3_PIN, and ENABLE3_PIN are set high in order
@@ -30,6 +31,7 @@ void multiplexer_init(void)
     nrf_gpio_pin_set(ENABLE1_PIN);
     nrf_gpio_pin_set(ENABLE2_PIN);
     nrf_gpio_pin_set(ENABLE3_PIN);
+    nrf_gpio_pin_set(MUX4_PIN);
     nrf_gpio_pin_set(MUX_SWITCH_PIN);
 }
 
@@ -41,6 +43,8 @@ void mux_state_change(uint8_t state)
     (mux_state[state].MUX2          == ON)? nrf_gpio_pin_clear(ENABLE2_PIN) : nrf_gpio_pin_set(ENABLE2_PIN);
 
     (mux_state[state].MUX3          == ON)? nrf_gpio_pin_clear(ENABLE3_PIN) : nrf_gpio_pin_set(ENABLE3_PIN);
+
+    (mux_state[state].MUX4          == ON)? nrf_gpio_pin_clear(MUX4_PIN) : nrf_gpio_pin_set(MUX4_PIN);
 
     (mux_state[state].MUX_SWITCHES  == ON)? nrf_gpio_pin_clear(MUX_SWITCH_PIN) : nrf_gpio_pin_set(MUX_SWITCH_PIN);
 }

@@ -52,7 +52,9 @@ uint8_t fsr_map[NUMBER_OF_SENSORS] =
 // initializes the global struct 'fsr'
 void fsr_init(struct fsr_field_t *fsr)
 {
-    uint8_t i,state,channel = 0;
+    uint8_t i = 0;
+    uint8_t state = 0;
+    uint8_t channel = 0;
 
     for( i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
     {
@@ -60,6 +62,8 @@ void fsr_init(struct fsr_field_t *fsr)
         fsr[i].number       = fsr_map[i];           // Map physical location to the buffer
         fsr[i].state        = state;                // range: 0-(NUMBER_OF_STATES - 1)
         fsr[i].adc_channel  = channel;              // range: 0-(NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS -1)
+        fsr[i].padding      = 0;                    // range: 0-(NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS -1)
+        
         channel++;
         if(channel >= NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS)
         {

@@ -22,36 +22,36 @@ nrf_saadc_channel_config_t adc_channel1_cfg =
     .resistor_p  = NRF_SAADC_RESISTOR_DISABLED,
     .resistor_n  = NRF_SAADC_RESISTOR_DISABLED,
     .gain        = NRF_SAADC_GAIN1_6,
-    .reference   = NRF_SAADC_REFERENCE_INTERNAL,
+    .reference   = NRF_SAADC_REFERENCE_VDD4,
     .acq_time    = NRF_SAADC_ACQTIME_40US,
     .mode        = NRF_SAADC_MODE_DIFFERENTIAL,
     .burst       = NRF_SAADC_BURST_DISABLED,
-    .pin_p       = (nrf_saadc_input_t)(ADC_CHANNEL1_PIN_P),
-    .pin_n       = (nrf_saadc_input_t)(ADC_CHANNEL1_PIN_N)
+    .pin_p       = ADC_CHANNEL1_PIN_P,
+    .pin_n       = ADC_CHANNEL1_PIN_N
 };
 nrf_saadc_channel_config_t adc_channel2_cfg =
 {
     .resistor_p  = NRF_SAADC_RESISTOR_DISABLED,
     .resistor_n  = NRF_SAADC_RESISTOR_DISABLED,
     .gain        = NRF_SAADC_GAIN1_6,
-    .reference   = NRF_SAADC_REFERENCE_INTERNAL,
+    .reference   = NRF_SAADC_REFERENCE_VDD4,
     .acq_time    = NRF_SAADC_ACQTIME_40US,
     .mode        = NRF_SAADC_MODE_DIFFERENTIAL,
     .burst       = NRF_SAADC_BURST_DISABLED,
-    .pin_p       = (nrf_saadc_input_t)(ADC_CHANNEL2_PIN_P),
-    .pin_n       = (nrf_saadc_input_t)(ADC_CHANNEL2_PIN_N)
+    .pin_p       = ADC_CHANNEL2_PIN_P,
+    .pin_n       = ADC_CHANNEL2_PIN_N
 };
 nrf_saadc_channel_config_t adc_channel3_cfg =
 {
     .resistor_p  = NRF_SAADC_RESISTOR_DISABLED,
     .resistor_n  = NRF_SAADC_RESISTOR_DISABLED,
     .gain        = NRF_SAADC_GAIN1_6,
-    .reference   = NRF_SAADC_REFERENCE_INTERNAL,
+    .reference   = NRF_SAADC_REFERENCE_VDD4,
     .acq_time    = NRF_SAADC_ACQTIME_40US,
     .mode        = NRF_SAADC_MODE_DIFFERENTIAL,
     .burst       = NRF_SAADC_BURST_DISABLED,
-    .pin_p       = (nrf_saadc_input_t)(ADC_CHANNEL3_PIN_P),
-    .pin_n       = (nrf_saadc_input_t)(ADC_CHANNEL3_PIN_N)
+    .pin_p       = ADC_CHANNEL3_PIN_P,
+    .pin_n       = ADC_CHANNEL3_PIN_N
 };
 
 bool calibrate_done_flag; 
