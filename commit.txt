@@ -1,6 +1,6 @@
 Changes:
 
-* Restructured the FSR buffers to decrease the overhead, now the metadata is never repeated. 
-* Also added an app_timer
+* Added the adc_timer to control the sample rate.
+* Reworked the state machine, state counter is not global and controlled in the adc callback.
 
 -compiles sucessfully

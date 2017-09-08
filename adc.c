@@ -80,8 +80,7 @@ void adc_init(nrf_drv_saadc_event_handler_t  event_handler, adc_struct_t *adc_bu
     APP_ERROR_CHECK(nrf_drv_saadc_channel_init(ADC_CHANNEL3, &adc_channel3_cfg));
 }
 // This function sets the adc buffer pointer to the adress of the first member of the given state.
-void adc_sample_state(uint8_t state, adc_struct_t *adc_buffer_p)
+void adc_state_buffer_change(uint8_t state, adc_struct_t *adc_buffer_p)
 {   
-    APP_ERROR_CHECK(nrf_drv_saadc_buffer_convert((nrf_saadc_value_t *)&(adc_buffer_p[state]), NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS));
-    APP_ERROR_CHECK(nrf_drv_saadc_sample());
+    APP_ERROR_CHECK(nrf_drv_saadc_buffer_convert((nrf_saadc_value_t *)&(adc_buffer_p[state]), NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS));    
 }

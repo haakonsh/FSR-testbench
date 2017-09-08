@@ -42,11 +42,10 @@
 #include "app_timer.h"
 #include "nrf_drv_clock.h"
 
-
+#define APP_TIMER_PRESCALER 0
+#define ADC_TIMER_TICKS  APP_TIMER_TICKS(20)
 
 /*********** Instantiations ******************************************************************/
-
-
 
 // This buffer will be filled with the raw samples from the SAADC. 
 adc_struct_t adc_buffer[NUMBER_OF_STATES];
@@ -56,8 +55,13 @@ fsr_field_t fsr_buffer[NUMBER_OF_SENSORS];
 
 // Flag that eneables the main context to execute the next iteration of the state machine. 
 // Set to true to start off the state machine.
-bool adc_done_flag = true;
+bool state_machine_enter = true;
 
+// Counter that keeps tabs on the current state of the sensor board(multiplexer), and buffers.
+static uint8_t state_counter = 0;
+
+//Flag that controls when the samples will be saved to long term storage.
+bool save_data = false;
 
 /************** Configs **********************************************************************/
 
@@ -77,6 +81,11 @@ void app_error_fault_handler(uint32_t id, uint32_t pc, uint32_t info)
 #endif // DEBUG
 }
 
+void adc_timer_handler(void * p_context)
+{
+      state_machine_enter = true;
+}
+
 void adc_evt_handler(nrf_drv_saadc_evt_t const *p_event)
 {
     nrf_drv_saadc_evt_type_t event = p_event->type;
@@ -89,8 +98,19 @@ void adc_evt_handler(nrf_drv_saadc_evt_t const *p_event)
         case NRF_DRV_SAADC_EVT_LIMIT: 
             break;
 
-        case NRF_DRV_SAADC_EVT_DONE: 
-            adc_done_flag = true;
+        case NRF_DRV_SAADC_EVT_DONE:
+
+            state_counter++;
+            if(state_counter >= NUMBER_OF_STATES)   // All sensors have been sampled once
+            {
+                state_machine_enter = false;    // stop the state machine, the adc_timer handler will restart it every 20ms.
+                save_data = true;               // Save the samples to their respecitive fsr buffers
+                state_counter = 0;          
+            }
+            else
+            {
+                state_machine_enter = true; // iterate through the remaining states. 
+            }  
             break;
         default:
         break;
@@ -109,6 +129,36 @@ static void log_init(void)
     NRF_LOG_DEFAULT_BACKENDS_INIT();
 }
 
+/**
+ * @brief Function for starting the internal LFCLK XTAL oscillator.
+ *
+ * Note that when using a SoftDevice, LFCLK is always on.
+ *
+ * @return Values returned by @ref nrf_drv_clock_init.
+ */
+static ret_code_t clock_config(void)
+{
+    ret_code_t err_code;
+
+    err_code = nrf_drv_clock_init();
+    if (err_code != NRF_SUCCESS)
+    {
+        return err_code;
+    }
+
+    nrf_drv_clock_lfclk_request(NULL);
+
+    return NRF_SUCCESS;
+}
+
+void app_timer_initialization(void)
+{
+    APP_TIMER_DEF(adc_timer);
+    APP_ERROR_CHECK(app_timer_init());
+    APP_ERROR_CHECK(app_timer_create(&adc_timer, APP_TIMER_MODE_REPEATED, adc_timer_handler));
+    APP_ERROR_CHECK(app_timer_start(adc_timer, ADC_TIMER_TICKS, NULL));
+}
+
 /************** Utils ************************************************************************/
 
 void print_buffer(fsr_field_t *m_buffer)
@@ -118,7 +168,7 @@ void print_buffer(fsr_field_t *m_buffer)
     // {
     //     SEGGER_RTT_printf(0,"Sensor: %2d Value: 0x%.4d \n", m_buffer[i].number, m_buffer[i].value);    
     // }
-    for(uint8_t i = 0; i <= NUMBER_OF_SAMPLES; i++)
+    for(uint16_t i = 0; i <= NUMBER_OF_SAMPLES; i++)
     {
         SEGGER_RTT_printf(0,"Sensor: %2d Value: 0x%.4d \n", m_buffer[6].number, m_buffer[6].value[i]);
     } 
@@ -128,21 +178,10 @@ void print_buffer(fsr_field_t *m_buffer)
 
 void state_machine(void)
 {
-    static uint8_t state_counter = 0;
-
-    mux_state_change(state_counter);
-    adc_sample_state(state_counter, adc_buffer);
-    state_counter++;
-    if(state_counter >= NUMBER_OF_STATES)
-    {
-      state_counter = 0;
-      fsr_update(adc_buffer, fsr_buffer);
-      nrf_gpio_pin_set(12);
-      nrf_gpio_pin_clear(12);
-
-      //print_buffer(fsr_buffer); // pipe data to user
     
-    }
+    mux_state_change(state_counter); // change the physical state of the sensor board
+    adc_state_buffer_change(state_counter, adc_buffer); // Move the SAADC buffer pointer to the next buffer         
+    APP_ERROR_CHECK(nrf_drv_saadc_sample()); // Sample one state    
 }
 
 /**
@@ -150,19 +189,28 @@ void state_machine(void)
  */
 int main(void)
 {
-    
-    nrf_gpio_cfg_output(12);
+    nrf_gpio_cfg_output(12); //TODO remove debug pin
     log_init();
     fsr_init(fsr_buffer);
     multiplexer_init();
     adc_init(adc_evt_handler, adc_buffer);
-  
+    APP_ERROR_CHECK(clock_config());
+    app_timer_initialization(); 
 
     while (true)
     {
-        if(adc_done_flag)
+        if(save_data)
         {
-            adc_done_flag = false;
+            fsr_update(adc_buffer, fsr_buffer); // move the samples into their respective containers for long term storage
+            save_data = false;
+            nrf_gpio_pin_set(12);   //TODO remove debug pin 
+            nrf_gpio_pin_clear(12); //TODO remove debug pin
+
+            //print_buffer(fsr_buffer); // pipe data to user
+        }
+        else if(state_machine_enter)
+        {
+            state_machine_enter = false;
             state_machine();
         } 
         __WFE();

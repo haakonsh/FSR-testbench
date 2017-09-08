@@ -35,7 +35,7 @@ __packed typedef struct
 // Initializes the ADC
 void adc_init(nrf_drv_saadc_event_handler_t  event_handler, adc_struct_t *adc_buffer);
 // Samples the three differntial channels one time(one state), and stores the result in the corresponing adc_buffer[state].
-void adc_sample_state(uint8_t state, adc_struct_t *adc_buffer_p);
+void adc_state_buffer_change(uint8_t state, adc_struct_t *adc_buffer_p);
 
 void set_calibrate_flag(void);
 
