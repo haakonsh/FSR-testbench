@@ -39,42 +39,29 @@
 #include "adc.h"
 #include "fsr.h"
 #include "SEGGER_RTT.h"
+#include "app_timer.h"
+#include "nrf_drv_clock.h"
+
+
 
 /*********** Instantiations ******************************************************************/
 
-extern struct fsr_field_t fsr[NUMBER_OF_SENSORS];
 
-nrf_drv_rtc_t rtc = NRF_DRV_RTC_INSTANCE(1);
 
 // This buffer will be filled with the raw samples from the SAADC. 
 adc_struct_t adc_buffer[NUMBER_OF_STATES];
 
 /*This is the main data array. It contains the FSR number identifier, which state it belongs to, which adc channel it belongs to, and the last adc sample. In the future the adc sample will not be stored in this array. */
-struct fsr_field_t fsr_buffer[NUMBER_OF_SENSORS];
+fsr_field_t fsr_buffer[NUMBER_OF_SENSORS];
 
 // Flag that eneables the main context to execute the next iteration of the state machine. 
 // Set to true to start off the state machine.
 bool adc_done_flag = true;
 
+
 /************** Configs **********************************************************************/
 
-/************** Inits ************************************************************************/
-
-/**@brief Function for initializing the nrf log module.
- */
-static void log_init(void)
-{
-    ret_code_t err_code = NRF_LOG_INIT(NULL);
-    APP_ERROR_CHECK(err_code);
-
-    NRF_LOG_DEFAULT_BACKENDS_INIT();
-}
 /************** Handlers *********************************************************************/
-
-void rtc_handler(nrf_drv_rtc_int_type_t int_type)
-{
-
-}
 
 void app_error_fault_handler(uint32_t id, uint32_t pc, uint32_t info)
 {
@@ -110,13 +97,31 @@ void adc_evt_handler(nrf_drv_saadc_evt_t const *p_event)
     }
 }
 
-void print_buffer(struct fsr_field_t *m_buffer)
+/************** Inits ************************************************************************/
+
+/**@brief Function for initializing the nrf log module.
+ */
+static void log_init(void)
+{
+    ret_code_t err_code = NRF_LOG_INIT(NULL);
+    APP_ERROR_CHECK(err_code);
+
+    NRF_LOG_DEFAULT_BACKENDS_INIT();
+}
+
+/************** Utils ************************************************************************/
+
+void print_buffer(fsr_field_t *m_buffer)
 {
     //PRINT
-    for(uint8_t i = 0; i < NUMBER_OF_SENSORS; i++)
+    // for(uint8_t i = 0; i < NUMBER_OF_SENSORS; i++)
+    // {
+    //     SEGGER_RTT_printf(0,"Sensor: %2d Value: 0x%.4d \n", m_buffer[i].number, m_buffer[i].value);    
+    // }
+    for(uint8_t i = 0; i <= NUMBER_OF_SAMPLES; i++)
     {
-        SEGGER_RTT_printf(0,"Sensor: %2d Value: 0x%.4d \n", m_buffer[i].number, m_buffer[i].value);    
-    }
+        SEGGER_RTT_printf(0,"Sensor: %2d Value: 0x%.4d \n", m_buffer[6].number, m_buffer[6].value[i]);
+    } 
     SEGGER_RTT_printf(0,"***************************\n");
     //SEGGER_RTT_printf(0,"Sensor: %2d Value: 0x%.4d \n", m_buffer[6].number, m_buffer[6].value);
 }
@@ -132,8 +137,10 @@ void state_machine(void)
     {
       state_counter = 0;
       fsr_update(adc_buffer, fsr_buffer);
+      nrf_gpio_pin_set(12);
+      nrf_gpio_pin_clear(12);
 
-      print_buffer(fsr_buffer); // pipe data to user
+      //print_buffer(fsr_buffer); // pipe data to user
     
     }
 }
@@ -143,10 +150,13 @@ void state_machine(void)
  */
 int main(void)
 {
+    
+    nrf_gpio_cfg_output(12);
     log_init();
     fsr_init(fsr_buffer);
     multiplexer_init();
     adc_init(adc_evt_handler, adc_buffer);
+  
 
     while (true)
     {

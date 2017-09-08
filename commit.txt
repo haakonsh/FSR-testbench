@@ -1,5 +1,6 @@
 Changes:
 
-* Removed the 5th mux signal, it is not needed.
+* Restructured the FSR buffers to decrease the overhead, now the metadata is never repeated. 
+* Also added an app_timer
 
 -compiles sucessfully

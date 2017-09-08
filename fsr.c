@@ -50,7 +50,7 @@ uint8_t fsr_map[NUMBER_OF_SENSORS] =
   22,  // #36
 };
 // initializes the global struct 'fsr'
-void fsr_init(struct fsr_field_t *fsr)
+void fsr_init(fsr_field_t *fsr)
 {
     uint8_t i = 0;
     uint8_t state = 0;
@@ -58,12 +58,11 @@ void fsr_init(struct fsr_field_t *fsr)
 
     for( i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
     {
-        fsr[i].value        = 0;                    // Set all values to 0
         fsr[i].number       = fsr_map[i];           // Map physical location to the buffer
         fsr[i].state        = state;                // range: 0-(NUMBER_OF_STATES - 1)
         fsr[i].adc_channel  = channel;              // range: 0-(NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS -1)
-        fsr[i].padding      = 0;                    // range: 0-(NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS -1)
-        
+        memset(fsr[i].value, 0x0, sizeof(fsr[i].value));
+               
         channel++;
         if(channel >= NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS)
         {
@@ -73,22 +72,34 @@ void fsr_init(struct fsr_field_t *fsr)
     }
 }
 
-// This function copies the sensor samples from the adc_buffer into it's respective fsr_field_t struct.
-void fsr_update(adc_struct_t *adc_buffer, struct fsr_field_t *fsr)
+/* This function copies the sensor samples from the adc_buffer into it's respective place in  fsr_field_t buffer. Each state of the multiplexer contains one sample from each of the three ADC channels*/
+void fsr_update(adc_struct_t *adc_buffer, fsr_field_t *fsr)
 {
-  for(uint8_t i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
-  {
-    // The fsr[i].adc_channels can be either 0, 1, or 2, depending on the multiplexing
-    switch (fsr[i].adc_channel)
+    static uint16_t sample = 0;
+
+    if(sample < NUMBER_OF_SAMPLES)
     {
-        case 0: fsr[i].value = adc_buffer[fsr[i].state].adc_channel1;
-        break;
+        for(uint8_t i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
+        {
+            // The fsr[i].adc_channels can be either 0, 1, or 2, depending on the multiplexing
+            switch (fsr[i].adc_channel)
+            {
+                case 0: fsr[i].value[sample] = adc_buffer[fsr[i].state].adc_channel1;
+                break;
 
-        case 1: fsr[i].value = adc_buffer[fsr[i].state].adc_channel2;
-        break;
+                case 1: fsr[i].value[sample] = adc_buffer[fsr[i].state].adc_channel2;
+                break;
 
-        case 2: fsr[i].value = adc_buffer[fsr[i].state].adc_channel3;
-        break;
+                case 2: fsr[i].value[sample] = adc_buffer[fsr[i].state].adc_channel3;
+                break;
+            }
+        }
     }
-  }
+    else
+    {
+        //TODO Reached NUMBER_OF_SAMPLES!
+        sample = 0;
+    }   
+    sample++;
+    
 }
