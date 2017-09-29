@@ -163,6 +163,26 @@ void app_timer_initialization(void)
 }
 
 /************** Utils ************************************************************************/
+void test_flash(void)
+{
+    uint32_t page_addr = START_ADDRESS; 
+    uint32_t pages_to_erase = (END_ADDRESS - START_ADDRESS) >> 12; // 2^12 = 4096 the number of kB in one page, maybe related to "magic number"
+    uint32_t addr_to_save = page_addr + 0;
+
+    uint32_t data[512];
+    for(uint16_t i = 0; i < 512; i++)
+    {
+        data[i] = i;
+    }
+    
+    while(nrf_fstorage_is_busy(NULL)){}
+
+    APP_ERROR_CHECK(nrf_flash_erase(page_addr, pages_to_erase, NULL));
+    while(nrf_fstorage_is_busy(NULL)){}
+
+    APP_ERROR_CHECK(nrf_flash_store(addr_to_save, &data, sizeof(data), NULL));
+    while(nrf_fstorage_is_busy(NULL)){}
+}
 void save_fsr_to_flash(fsr_field_t *data, uint32_t len)
 {
     uint32_t page_addr = START_ADDRESS; 
@@ -205,14 +225,16 @@ void state_machine(void)
  * @brief Function for application main entry.
  */
 int main(void)
-{
+{   
+    APP_ERROR_CHECK(nrf_flash_init(false)); //initialise fstorage module
+    test_flash();
     nrf_gpio_cfg_output(12); //TODO remove debug pin
     log_init();
     fsr_init(fsr_buffer);
     multiplexer_init();
     adc_init(adc_evt_handler, adc_buffer);
     APP_ERROR_CHECK(clock_config());
-    APP_ERROR_CHECK(nrf_flash_init(false)); //initialise fstorage module
+    
     
     app_timer_initialization(); 
 
