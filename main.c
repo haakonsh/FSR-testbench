@@ -41,6 +41,9 @@
 #include "SEGGER_RTT.h"
 #include "app_timer.h"
 #include "nrf_drv_clock.h"
+#include "nrf_fstorage.h"
+#include "flash.h"
+
 
 #define APP_TIMER_PRESCALER 0
 #define ADC_TIMER_TICKS  APP_TIMER_TICKS(20)
@@ -62,8 +65,6 @@ static uint8_t state_counter = 0;
 
 //Flag that controls when the samples will be saved to long term storage.
 bool save_data = false;
-
-/************** Configs **********************************************************************/
 
 /************** Handlers *********************************************************************/
 
@@ -117,6 +118,8 @@ void adc_evt_handler(nrf_drv_saadc_evt_t const *p_event)
     }
 }
 
+/************** Configs **********************************************************************/
+
 /************** Inits ************************************************************************/
 
 /**@brief Function for initializing the nrf log module.
@@ -160,6 +163,20 @@ void app_timer_initialization(void)
 }
 
 /************** Utils ************************************************************************/
+void save_fsr_to_flash(fsr_field_t *data, uint32_t len)
+{
+    uint32_t page_addr = START_ADDRESS; 
+    uint32_t pages_to_erase = (END_ADDRESS - START_ADDRESS) >> 12; // 2^12 = 4096 the number of kB in one page
+    uint32_t addr_to_save = page_addr + 0;
+
+    while(nrf_fstorage_is_busy(NULL)){}
+
+    APP_ERROR_CHECK(nrf_flash_erase(page_addr, pages_to_erase, NULL));
+    while(nrf_fstorage_is_busy(NULL)){}
+
+    APP_ERROR_CHECK(nrf_flash_store(addr_to_save, data, len, NULL));
+    while(nrf_fstorage_is_busy(NULL)){}
+}
 
 void print_buffer(fsr_field_t *m_buffer)
 {
@@ -195,6 +212,8 @@ int main(void)
     multiplexer_init();
     adc_init(adc_evt_handler, adc_buffer);
     APP_ERROR_CHECK(clock_config());
+    APP_ERROR_CHECK(nrf_flash_init(false)); //initialise fstorage module
+    
     app_timer_initialization(); 
 
     while (true)
@@ -203,8 +222,11 @@ int main(void)
         {
             fsr_update(adc_buffer, fsr_buffer); // move the samples into their respective containers for long term storage
             save_data = false;
-            nrf_gpio_pin_set(12);   //TODO remove debug pin 
-            nrf_gpio_pin_clear(12); //TODO remove debug pin
+            save_fsr_to_flash(fsr_buffer, sizeof(fsr_buffer));
+
+
+            // nrf_gpio_pin_set(12);   //TODO remove debug pin 
+            // nrf_gpio_pin_clear(12); //TODO remove debug pin
 
             //print_buffer(fsr_buffer); // pipe data to user
         }

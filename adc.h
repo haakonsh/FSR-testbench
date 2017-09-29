@@ -6,8 +6,7 @@
 #include <stdint.h>
 #include "nrf_drv_saadc.h"
 
-#define ADC_BUFFER_SIZE     1024 
-
+#define ADC_BUFFER_SIZE     1024 //TODO Should be based on NUMBER_OF_SAMPLES in fsr.h
 
 #define ADC_CHANNEL1        0
 #define ADC_CHANNEL2        1

@@ -58,9 +58,9 @@ void fsr_init(fsr_field_t *fsr)
 
     for( i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
     {
-        fsr[i].number       = fsr_map[i];           // Map physical location to the buffer
-        fsr[i].state        = state;                // range: 0-(NUMBER_OF_STATES - 1)
-        fsr[i].adc_channel  = channel;              // range: 0-(NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS -1)
+        fsr[i].number       = fsr_map[i];     // Map physical location to the buffer
+        fsr[i].state        = state;          // range: 0-(NUMBER_OF_STATES - 1)
+        fsr[i].adc_channel  = channel;        // range: 0-(NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS -1)
         memset(fsr[i].value, 0x0, sizeof(fsr[i].value));
                
         channel++;

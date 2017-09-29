@@ -12,8 +12,7 @@
 #define NUMBER_OF_STATES                        12   // A state contains NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS amount of sensors
 #define NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS     3   // NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS * NUMBER_OF_STATES >= NUMBER_OF_SENSORS must be true for all NUMBER_OF_SENSORS.
 
-#define NUMBER_OF_SAMPLES                       1024
-
+#define NUMBER_OF_SAMPLES                       512
 
 // A structure containing the data of an FSR sensor
 typedef struct FSR_field
