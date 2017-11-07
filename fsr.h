@@ -25,8 +25,10 @@ typedef struct FSR_field
 
 // Initializes the sensor data structures.
 void fsr_init(fsr_field_t *fsr);
+
 // Copies the values of the ADC samples into their respective fsr.value field.
-void fsr_update(adc_struct_t *adc_buffer, fsr_field_t *fsr);
+// Returns true if all samples have been collected
+bool fsr_update(adc_struct_t *adc_buffer, fsr_field_t *fsr);
 
 #endif
 

@@ -174,7 +174,7 @@ void save_fsr_to_flash(fsr_field_t *data, uint32_t len)
     APP_ERROR_CHECK(nrf_flash_erase(page_addr, pages_to_erase, NULL));
     while(nrf_fstorage_is_busy(NULL)){}
 
-    APP_ERROR_CHECK(nrf_flash_store(addr_to_save, data, len, NULL));
+    APP_ERROR_CHECK(nrf_flash_store(addr_to_save, (uint32_t *)data, len, NULL));
     while(nrf_fstorage_is_busy(NULL)){}
 }
 
@@ -220,11 +220,14 @@ int main(void)
     {
         if(save_data)
         {
-            fsr_update(adc_buffer, fsr_buffer); // move the samples into their respective containers for long term storage
+            if(fsr_update(adc_buffer, fsr_buffer))
+            {
+                uint32_t len = (NUMBER_OF_SAMPLES/2 + 2) * NUMBER_OF_SENSORS;
+                save_fsr_to_flash(fsr_buffer, len);   // move the samples into their respective containers for long term storage
+            }                
             save_data = false;
-            save_fsr_to_flash(fsr_buffer, sizeof(fsr_buffer));
-
-
+            
+            
             // nrf_gpio_pin_set(12);   //TODO remove debug pin 
             // nrf_gpio_pin_clear(12); //TODO remove debug pin
 

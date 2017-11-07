@@ -73,7 +73,7 @@ void fsr_init(fsr_field_t *fsr)
 }
 
 /* This function copies the sensor samples from the adc_buffer into it's respective place in  fsr_field_t buffer. Each state of the multiplexer contains one sample from each of the three ADC channels*/
-void fsr_update(adc_struct_t *adc_buffer, fsr_field_t *fsr)
+bool fsr_update(adc_struct_t *adc_buffer, fsr_field_t *fsr)
 {
     static uint16_t sample = 0;
 
@@ -99,7 +99,8 @@ void fsr_update(adc_struct_t *adc_buffer, fsr_field_t *fsr)
     {
         //TODO Reached NUMBER_OF_SAMPLES!
         sample = 0;
+        return true;
     }   
     sample++;
-    
+    return false;
 }
