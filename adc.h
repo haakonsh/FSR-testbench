@@ -6,20 +6,22 @@
 #include <stdint.h>
 #include "nrf_drv_saadc.h"
 
+#define SWAP_UINT16(x) (((x) >> 8) | ((x) << 8))
+
 #define ADC_BUFFER_SIZE     1024 //TODO Should be based on NUMBER_OF_SAMPLES in fsr.h
 
 #define ADC_CHANNEL1        0
 #define ADC_CHANNEL2        1
 #define ADC_CHANNEL3        2
 
-#define ADC_CHANNEL1_PIN_P  NRF_SAADC_INPUT_AIN4    // V1/2+
-#define ADC_CHANNEL1_PIN_N  NRF_SAADC_INPUT_AIN2    // V1/2-
+#define ADC_CHANNEL1_PIN_P  NRF_SAADC_INPUT_AIN4    // V1/2+ p0.28
+#define ADC_CHANNEL1_PIN_N  NRF_SAADC_INPUT_AIN2    // V1/2- p0.04
 
-#define ADC_CHANNEL2_PIN_P  NRF_SAADC_INPUT_AIN1    // V3/4+
-#define ADC_CHANNEL2_PIN_N  NRF_SAADC_INPUT_AIN5    // V3/4-
+#define ADC_CHANNEL2_PIN_P  NRF_SAADC_INPUT_AIN1    // V3/4+ p0.03
+#define ADC_CHANNEL2_PIN_N  NRF_SAADC_INPUT_AIN5    // V3/4- p0.29
 
-#define ADC_CHANNEL3_PIN_P  NRF_SAADC_INPUT_AIN6    // V5/6+
-#define ADC_CHANNEL3_PIN_N  NRF_SAADC_INPUT_AIN7    // V5/6-
+#define ADC_CHANNEL3_PIN_P  NRF_SAADC_INPUT_AIN6    // V5/6+ p0.30
+#define ADC_CHANNEL3_PIN_N  NRF_SAADC_INPUT_AIN7    // V5/6- p0.31
 
 // This structure contains NUMBER_OF_DIFFERENTIAL_ADC_CHANNELS(3) number of adc samples.
 // To ensure that the members are aligned with the samples from the SAADC, we pack the struct.

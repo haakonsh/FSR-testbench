@@ -114,23 +114,13 @@ void adc_evt_handler(nrf_drv_saadc_evt_t const *p_event)
             }  
             break;
         default:
-        break;
+            break;
     }
 }
 
 /************** Configs **********************************************************************/
 
 /************** Inits ************************************************************************/
-
-/**@brief Function for initializing the nrf log module.
- */
-static void log_init(void)
-{
-    ret_code_t err_code = NRF_LOG_INIT(NULL);
-    APP_ERROR_CHECK(err_code);
-
-    NRF_LOG_DEFAULT_BACKENDS_INIT();
-}
 
 /**
  * @brief Function for starting the internal LFCLK XTAL oscillator.
@@ -168,7 +158,7 @@ void save_fsr_to_flash(fsr_field_t *data, uint32_t len)
     uint32_t page_addr = START_ADDRESS; 
     uint32_t pages_to_erase = (END_ADDRESS - START_ADDRESS) >> 12; // 2^12 = 4096 the number of kB in one page
     uint32_t addr_to_save = page_addr + 0;
-
+    
     while(nrf_fstorage_is_busy(NULL)){}
 
     APP_ERROR_CHECK(nrf_flash_erase(page_addr, pages_to_erase, NULL));
@@ -195,7 +185,6 @@ void print_buffer(fsr_field_t *m_buffer)
 
 void state_machine(void)
 {
-    
     mux_state_change(state_counter); // change the physical state of the sensor board
     adc_state_buffer_change(state_counter, adc_buffer); // Move the SAADC buffer pointer to the next buffer         
     APP_ERROR_CHECK(nrf_drv_saadc_sample()); // Sample one state    
@@ -206,8 +195,6 @@ void state_machine(void)
  */
 int main(void)
 {
-    nrf_gpio_cfg_output(12); //TODO remove debug pin
-    log_init();
     fsr_init(fsr_buffer);
     multiplexer_init();
     adc_init(adc_evt_handler, adc_buffer);
@@ -222,16 +209,10 @@ int main(void)
         {
             if(fsr_update(adc_buffer, fsr_buffer))
             {
-                uint32_t len = (NUMBER_OF_SAMPLES/2 + 2) * NUMBER_OF_SENSORS;
+                uint32_t len = (NUMBER_OF_SAMPLES*2 + 4) * NUMBER_OF_SENSORS;
                 save_fsr_to_flash(fsr_buffer, len);   // move the samples into their respective containers for long term storage
             }                
             save_data = false;
-            
-            
-            // nrf_gpio_pin_set(12);   //TODO remove debug pin 
-            // nrf_gpio_pin_clear(12); //TODO remove debug pin
-
-            //print_buffer(fsr_buffer); // pipe data to user
         }
         else if(state_machine_enter)
         {

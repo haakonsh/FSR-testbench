@@ -12,42 +12,42 @@ by the physical multiplexing of the sensors on the PCB. Each sensor can only be 
 the state of which the sensor belongs to. See the schematics for a deeper understanding of how the multiplexing is done in-circuit.*/
 uint8_t fsr_map[NUMBER_OF_SENSORS] =
 {
-  18,  // #1
-  11,  // #2
-  24,  // #3
-  21,  // #4
-  29,  // #5
-  26,  // #6
-  27,  // #7
-  10,  // #8
-  36,  // #9
-  19,  // #10
-  17,  // #11
-  31,  // #12
-  20,  // #13
-  4,   // #14
-  13,  // #15
-  12,  // #16
-  16,  // #17
-  15,  // #18
-  23,  // #19
-  6,   // #20
-  5,   // #21
-  8,   // #22
-  2,   // #23
-  32,  // #24
-  28,  // #25
-  35,  // #26
-  25,  // #27
-  30,  // #28
-  7,   // #29
-  1,   // #30
-  33,  // #31
-  14,  // #32
-  3,   // #33
-  34,  // #34
-  9 ,  // #35
-  22,  // #36
+  2,    // #1
+  6,    // #2
+  0,    // #3
+  18,   // #4
+  24,   // #5
+  20,   // #6
+  27,   // #7
+  34,   // #8
+  16,   // #9
+  14,   // #10
+  12,   // #11
+  9,    // #12
+  32,   // #13
+  26,   // #14
+  30,   // #15
+  33,   // #16
+  23,   // #17
+  17,   // #18
+  3,    // #19
+  1,    // #20
+  7,    // #21
+  10,   // #22
+  15,   // #23
+  21,   // #24
+  22,   // #25
+  28,   // #26
+  35,   // #27
+  4,    // #28
+  13,   // #29
+  8,    // #30
+  19,   // #31
+  31,   // #32
+  25,   // #33
+  5,    // #34
+  11,   // #35
+  29,   // #36
 };
 // initializes the global struct 'fsr'
 void fsr_init(fsr_field_t *fsr)
@@ -79,9 +79,9 @@ bool fsr_update(adc_struct_t *adc_buffer, fsr_field_t *fsr)
 
     if(sample < NUMBER_OF_SAMPLES)
     {
-        for(uint8_t i = 0; i <= (NUMBER_OF_SENSORS - 1); i++)
+        for(uint8_t i = 0; i < NUMBER_OF_SENSORS; i++)
         {
-            // The fsr[i].adc_channels can be either 0, 1, or 2, depending on the multiplexing
+            // The fsr[i].adc_channels can be either 0, 1, or 2, depending on the multiplexing state
             switch (fsr[i].adc_channel)
             {
                 case 0: fsr[i].value[sample] = adc_buffer[fsr[i].state].adc_channel1;

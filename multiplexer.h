@@ -5,11 +5,11 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define ENABLE1_PIN     5       // MUX1 pin
-#define ENABLE2_PIN     6       // MUX2 pin
-#define ENABLE3_PIN     7       // MUX3 pin
-#define MUX4_PIN        8       // MUX4 pin
-#define MUX_SWITCH_PIN  9       // pin that triggers the switches
+#define ENABLE1_PIN     6       // MUX1 pin
+#define ENABLE2_PIN     7       // MUX2 pin
+#define ENABLE3_PIN     8       // MUX3 pin
+#define MUX4_PIN        9       // MUX4 pin
+#define MUX_SWITCH_PIN  5       // pin that triggers the switches
 
 
 typedef enum
@@ -33,84 +33,84 @@ mux_t state1 = {
     .MUX1           = ON,
     .MUX2           = OFF,
     .MUX3           = OFF,
-    .MUX_SWITCHES   = OFF,
+    .MUX_SWITCHES   = ON,
     .MUX4           = OFF,
 };
 mux_t state2 = {
     .MUX1           = OFF,
     .MUX2           = ON,
     .MUX3           = OFF,
-    .MUX_SWITCHES   = OFF,
+    .MUX_SWITCHES   = ON,
     .MUX4           = OFF,
 };
 mux_t state3 = {
     .MUX1           = OFF,
     .MUX2           = OFF,
     .MUX3           = ON,
-    .MUX_SWITCHES   = OFF,
+    .MUX_SWITCHES   = ON,
     .MUX4           = OFF,
 };
 mux_t state4 = {
     .MUX1           = ON,
     .MUX2           = OFF,
     .MUX3           = OFF,
-    .MUX_SWITCHES   = ON,
+    .MUX_SWITCHES   = OFF,
     .MUX4           = OFF,
 };
 mux_t state5 = {
     .MUX1           = OFF,
     .MUX2           = ON,
     .MUX3           = OFF,
-    .MUX_SWITCHES   = ON,
+    .MUX_SWITCHES   = OFF,
     .MUX4           = OFF,
 };
 mux_t state6 = {
     .MUX1           = OFF,
     .MUX2           = OFF,
     .MUX3           = ON,
-    .MUX_SWITCHES   = ON,
+    .MUX_SWITCHES   = OFF,
     .MUX4           = OFF,
 };
 mux_t state7 = {
     .MUX1           = ON,
     .MUX2           = OFF,
     .MUX3           = OFF,
-    .MUX_SWITCHES   = OFF,
+    .MUX_SWITCHES   = ON,
     .MUX4           = ON,
 };
 mux_t state8 = {
     .MUX1           = OFF,
     .MUX2           = ON,
     .MUX3           = OFF,
-    .MUX_SWITCHES   = OFF,
+    .MUX_SWITCHES   = ON,
     .MUX4           = ON,
 };
 mux_t state9 = {
     .MUX1           = OFF,
     .MUX2           = OFF,
     .MUX3           = ON,
-    .MUX_SWITCHES   = OFF,
+    .MUX_SWITCHES   = ON,
     .MUX4           = ON,
 };
 mux_t state10 = {
     .MUX1           = ON,
     .MUX2           = OFF,
     .MUX3           = OFF,
-    .MUX_SWITCHES   = ON,
+    .MUX_SWITCHES   = OFF,
     .MUX4           = ON,
 };
 mux_t state11 = {
     .MUX1           = OFF,
     .MUX2           = ON,
     .MUX3           = OFF,
-    .MUX_SWITCHES   = ON,
+    .MUX_SWITCHES   = OFF,
     .MUX4           = ON,
 };
 mux_t state12 = {
     .MUX1           = OFF,
     .MUX2           = OFF,
     .MUX3           = ON,
-    .MUX_SWITCHES   = ON,
+    .MUX_SWITCHES   = OFF,
     .MUX4           = ON,
 };
 #endif
