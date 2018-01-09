@@ -103,7 +103,7 @@ void adc_evt_handler(nrf_drv_saadc_evt_t const *p_event)
 
             state_counter++;
             if(state_counter >= NUMBER_OF_STATES)   // All sensors have been sampled once
-            {
+            {               
                 state_machine_enter = false;    // stop the state machine, the adc_timer handler will restart it every 20ms.
                 save_data = true;               // Save the samples to their respecitive fsr buffers
                 state_counter = 0;          
@@ -195,6 +195,11 @@ void state_machine(void)
  */
 int main(void)
 {
+    nrf_gpio_cfg_output(DEBUG_PIN);
+    nrf_gpio_pin_clear(DEBUG_PIN);
+    nrf_gpio_pin_set(DEBUG_PIN);
+    nrf_gpio_pin_clear(DEBUG_PIN);
+    
     fsr_init(fsr_buffer);
     multiplexer_init();
     adc_init(adc_evt_handler, adc_buffer);
@@ -202,6 +207,8 @@ int main(void)
     APP_ERROR_CHECK(nrf_flash_init(false)); //initialise fstorage module
     
     app_timer_initialization(); 
+    nrf_gpio_pin_set(DEBUG_PIN);
+    nrf_gpio_pin_clear(DEBUG_PIN);
 
     while (true)
     {

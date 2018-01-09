@@ -24,13 +24,43 @@ void multiplexer_init(void)
     mux_state[9]    = state10;
     mux_state[10]   = state11;
     mux_state[11]   = state12;
-          
-    nrf_gpio_cfg_output(ENABLE1_PIN);
-    nrf_gpio_cfg_output(ENABLE2_PIN);
-    nrf_gpio_cfg_output(ENABLE3_PIN);
-    nrf_gpio_cfg_output(MUX4_PIN);
-    nrf_gpio_cfg_output(MUX_SWITCH_PIN);
-
+    
+    nrf_gpio_cfg(
+        ENABLE1_PIN,
+        NRF_GPIO_PIN_DIR_OUTPUT,
+        NRF_GPIO_PIN_INPUT_DISCONNECT,
+        NRF_GPIO_PIN_NOPULL,
+        NRF_GPIO_PIN_H0H1,
+        NRF_GPIO_PIN_NOSENSE);  
+    nrf_gpio_cfg(
+        ENABLE2_PIN,
+        NRF_GPIO_PIN_DIR_OUTPUT,
+        NRF_GPIO_PIN_INPUT_DISCONNECT,
+        NRF_GPIO_PIN_NOPULL,
+        NRF_GPIO_PIN_H0H1,
+        NRF_GPIO_PIN_NOSENSE); 
+    nrf_gpio_cfg(
+        ENABLE3_PIN,
+        NRF_GPIO_PIN_DIR_OUTPUT,
+        NRF_GPIO_PIN_INPUT_DISCONNECT,
+        NRF_GPIO_PIN_NOPULL,
+        NRF_GPIO_PIN_H0H1,
+        NRF_GPIO_PIN_NOSENSE);  
+    nrf_gpio_cfg(
+        MUX4_PIN,
+        NRF_GPIO_PIN_DIR_OUTPUT,
+        NRF_GPIO_PIN_INPUT_DISCONNECT,
+        NRF_GPIO_PIN_NOPULL,
+        NRF_GPIO_PIN_H0H1,
+        NRF_GPIO_PIN_NOSENSE); 
+    nrf_gpio_cfg(
+        MUX_SWITCH_PIN,
+        NRF_GPIO_PIN_DIR_OUTPUT,
+        NRF_GPIO_PIN_INPUT_DISCONNECT,
+        NRF_GPIO_PIN_NOPULL,
+        NRF_GPIO_PIN_H0H1,
+        NRF_GPIO_PIN_NOSENSE);  
+ 
     /* The multiplexer's control signal are active low. The ENABLE1_PIN, ENABLE3_PIN, and ENABLE3_PIN are set high in order
     to disable the multiplexer circuit*/
     nrf_gpio_pin_set(ENABLE1_PIN);
@@ -43,6 +73,9 @@ void multiplexer_init(void)
 // This function sets the multiplexer control signal based on the given state.
 void mux_state_change(uint8_t state)
 {
+    nrf_gpio_pin_set(DEBUG_PIN);
+    nrf_gpio_pin_clear(DEBUG_PIN);
+    
     (mux_state[state].MUX1          == ON)? nrf_gpio_pin_clear(ENABLE1_PIN) : nrf_gpio_pin_set(ENABLE1_PIN);
 
     (mux_state[state].MUX2          == ON)? nrf_gpio_pin_clear(ENABLE2_PIN) : nrf_gpio_pin_set(ENABLE2_PIN);
