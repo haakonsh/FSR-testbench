@@ -8,9 +8,9 @@
 #define ENABLE1_PIN     6       // MUX1 pin
 #define ENABLE2_PIN     7       // MUX2 pin
 #define ENABLE3_PIN     8       // MUX3 pin
-#define MUX4_PIN        12       // MUX4 pin
+#define MUX4_PIN        11      // MUX4 pin
 #define MUX_SWITCH_PIN  5       // pin that triggers the switches
-#define DEBUG_PIN       11      
+#define DEBUG_PIN       12      
 
 
 typedef enum
