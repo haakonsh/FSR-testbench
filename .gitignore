@@ -23,6 +23,7 @@
 *.uvguix.*
 *.tmp
 **/arm/JLinkLog.txt
+pca10056/blank/arm5_no_packs/JLinkLog.txt
 **/_viminfo
 **/_vimtags
 _build/
